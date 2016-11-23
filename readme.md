@@ -46,5 +46,9 @@ let translate = drop.nstack?.application.translate.self
 
 ###Usages
 ```
+// With shortcut
 translate?.get(section: "default", key: "ok")
+
+// Through drop
+drop.nstack?.application.translate.get(platform: "backend2", language: "en-UK", section: "default", key: "saveSuccess", replace: ["model": "test"])
 ```
