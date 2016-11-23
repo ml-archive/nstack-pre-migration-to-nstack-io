@@ -43,3 +43,8 @@ Consider making a easy accessible var
 ```
 let translate = drop.nstack?.application.translate.self
 ```
+
+###Usages
+```
+translate?.get(section: "default", key: "ok")
+```
