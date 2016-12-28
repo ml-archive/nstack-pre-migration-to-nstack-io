@@ -1,6 +1,5 @@
 import Vapor
 import Foundation
-import SwiftDate
 import Cache
 
 public struct Translation {
@@ -10,7 +9,7 @@ public struct Translation {
     let json: JSON
     let platform: String
     let language: String
-    let date: DateInRegion
+    let date: Date
     
     init(drop: Droplet, application: Application, json: JSON, platform: String, language: String) {
         self.drop = drop
@@ -19,7 +18,7 @@ public struct Translation {
         self.platform = platform
         self.language = language
         
-        self.date = DateInRegion.init()
+        self.date = Date()
     }
     
     init(drop: Droplet, application: Application, node: Node) throws {
@@ -29,9 +28,8 @@ public struct Translation {
         self.json = try node.extract("json")
         self.platform = try node.extract("platform")
         self.language = try node.extract("language")
-        let dateString: String = try node.extract("date")
-        
-        self.date = try DateInRegion(string: dateString, format: .iso8601(options: .withInternetDateTime))
+    
+        self.date = try Date.parse(node.extract("date"))
     }
     
     func isOutdated() -> Bool {
@@ -40,7 +38,7 @@ public struct Translation {
         let secondsInMinutes: TimeInterval = Double(cacheInMinutes) * 60
         let dateAtCacheExpiration: Date = Date().addingTimeInterval(-secondsInMinutes)
         
-        return dateAtCacheExpiration.isAfter(date: self.date.absoluteDate, granularity: .second)
+        return dateAtCacheExpiration.isAfter(self.date)
     }
     
     func get(section: String, key: String) -> String {
@@ -64,7 +62,7 @@ public struct Translation {
             "language": Node(language),
             "platform": Node(platform),
             "json": json.node,
-            "date": Node(date.iso8601())
+            "date": try Node(date.toDateTimeString())
         ])
     }
 }

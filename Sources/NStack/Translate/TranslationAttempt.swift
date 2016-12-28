@@ -1,41 +1,40 @@
 import Vapor
 import Foundation
-import SwiftDate
 import Cache
 
 public class TranslationAttempt {
     
     public var dates: [String: Error] = [:]
     
-    init(error: Error) {
-        
-        append(error: error)
+    init(error: Error) throws {
+        try append(error: error)
     }
     
-    public func append(error: Error) {
-        let dateString = DateInRegion.init().string(format: .iso8601(options: .withInternetDateTime))
+    public func append(error: Error) throws {
+        let dateString = try Date().toDateTimeString()
         
         dates[dateString] = error
     }
     
     public func avoidFetchingAgain() -> Bool {
-        let datePreRetryPeriod = DateInRegion.init() - 3.seconds
-        let datePreNotFoundPeriod = DateInRegion.init() - 5.minutes
+        let datePreRetryPeriod = Date().addingTimeInterval(-3 * 60)
+        let datePreNotFoundPeriod =  Date().addingTimeInterval(-5 * 60)
         
         for (key, value) in dates {
             do {
-                let date = try DateInRegion(string: key, format: .iso8601(options: .withInternetDateTime))
+                let date = Date.parse(key)
                 
                 // Any errors within few secs should give a break in trying again
-                if(date.isAfter(date: datePreRetryPeriod, granularity: .second)) {
+                if date.isAfter(datePreRetryPeriod) {
                     return true
                 }
                 
                 // Not found errors within few min should give a break in trying again
-                if(date.isAfter(date: datePreNotFoundPeriod, granularity: .second) && value.localizedDescription.equals(any: "notFound")) {
+                if date.isAfter(datePreNotFoundPeriod) && value.localizedDescription.equals(any: "notFound") {
                     return true
                 }
             } catch {
+                // Do nothing
             }
         }
         

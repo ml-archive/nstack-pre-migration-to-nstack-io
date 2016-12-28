@@ -116,11 +116,10 @@ public final class Translate {
             return apiTranslate
             
         } catch {
-            attempts[Translate.cacheKey(platform: platform, language: language)] = TranslationAttempt(error: error)
+            attempts[Translate.cacheKey(platform: platform, language: language)] = try TranslationAttempt(error: error)
             
             throw error
         }
-
     }
     
     private final func freshFromMemory(platform: String, language: String) -> Translation?
