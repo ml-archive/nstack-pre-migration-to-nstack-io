@@ -21,21 +21,19 @@ public class TranslationAttempt {
         let datePreNotFoundPeriod =  Date().addingTimeInterval(-5 * 60)
         
         for (key, value) in dates {
-            do {
-                let date = Date.parse(key)
+            
+            let date = Date.parse(key)
                 
-                // Any errors within few secs should give a break in trying again
-                if date.isAfter(datePreRetryPeriod) {
-                    return true
-                }
-                
-                // Not found errors within few min should give a break in trying again
-                if date.isAfter(datePreNotFoundPeriod) && value.localizedDescription.equals(any: "notFound") {
-                    return true
-                }
-            } catch {
-                // Do nothing
+            // Any errors within few secs should give a break in trying again
+            if date.isAfter(datePreRetryPeriod) {
+                return true
             }
+                
+            // Not found errors within few min should give a break in trying again
+            if date.isAfter(datePreNotFoundPeriod) && value.localizedDescription.equals(any: "notFound") {
+                return true
+            }
+            
         }
         
         return false
