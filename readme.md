@@ -1,3 +1,10 @@
+# Bugsnag
+[![Language](https://img.shields.io/badge/Swift-3-brightgreen.svg)](http://swift.org)
+[![Build Status](https://travis-ci.org/nodes-vapor/nstack.svg?branch=master)](https://travis-ci.org/nodes-vapor/nstack)
+[![codecov](https://codecov.io/gh/nodes-vapor/nstack/branch/master/graph/badge.svg)](https://codecov.io/gh/nodes-vapor/nstack)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/nodes-vapor/nstack/master/LICENSE)
+
+
 This package is a wrapper around the NStack.io API 
 
 Following features
