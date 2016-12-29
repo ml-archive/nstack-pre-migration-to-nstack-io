@@ -48,7 +48,6 @@ struct TranslateConfig {
 }
 
 /*
- TODO
  public struct Configuration {
  
  public enum Field: String {
