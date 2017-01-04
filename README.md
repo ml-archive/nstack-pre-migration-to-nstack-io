@@ -1,4 +1,4 @@
-# Bugsnag
+# NStack
 [![Language](https://img.shields.io/badge/Swift-3-brightgreen.svg)](http://swift.org)
 [![Build Status](https://travis-ci.org/nodes-vapor/nstack.svg?branch=master)](https://travis-ci.org/nodes-vapor/nstack)
 [![codecov](https://codecov.io/gh/nodes-vapor/nstack/branch/master/graph/badge.svg)](https://codecov.io/gh/nodes-vapor/nstack)
