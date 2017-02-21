@@ -21,8 +21,7 @@ public class TranslationAttempt {
         let datePreNotFoundPeriod =  Date().addingTimeInterval(-5 * 60)
         
         for (key, value) in dates {
-            
-            let date = Date.parse(key)
+            let date = Date.parse(.dateTime, key, Date())
                 
             // Any errors within few secs should give a break in trying again
             if date.isAfter(datePreRetryPeriod) {

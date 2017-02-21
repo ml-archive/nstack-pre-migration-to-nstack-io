@@ -1,6 +1,7 @@
 import Vapor
 import Foundation
 import Cache
+import Sugar
 
 public struct Translation {
     
@@ -29,25 +30,32 @@ public struct Translation {
         self.platform = try node.extract("platform")
         self.language = try node.extract("language")
     
-        self.date = try Date.parse(node.extract("date"))
+        self.date = try Date.parse(.dateTime, node.extract("date"), Date())
     }
     
     func isOutdated() -> Bool {
         let cacheInMinutes = drop.config["nstack", "translate", "cacheInMinutes"]?.int ?? 60
 
         let secondsInMinutes: TimeInterval = Double(cacheInMinutes) * 60
-        let dateAtCacheExpiration: Date = Date().addingTimeInterval(-secondsInMinutes)
         
-        return dateAtCacheExpiration.isAfter(self.date)
+        let dateAtCacheExpiration: Date = self.date.addingTimeInterval(secondsInMinutes)
+        do {
+            try application.nStackConfig.log("Expiration of current cache is: " + dateAtCacheExpiration.toDateTimeString() + " current time is: " + Date().toDateTimeString())
+        } catch {}
+        
+        return dateAtCacheExpiration.isPast()
     }
     
     func get(section: String, key: String) -> String {
         do {
             let data: Node = try self.json.extract("data")
-            let section: Node = try data.extract(section)
-            let key: String = try section.extract(key)
+            
+            let sectionNode: Node = try data.extract(section)
+            
+            let key: String = try sectionNode.extract(key)
             return key
         } catch  {
+            
             application.nStackConfig.log("NStack.Translate.get error:" + error.localizedDescription)
             return Translation.fallback(section: section, key: key)
         }

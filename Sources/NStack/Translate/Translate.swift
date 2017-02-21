@@ -150,6 +150,7 @@ public final class Translate {
             }
             
             let translate: Translation = try Translation(drop: application.connectionManager.drop, application: application, node: translateNode)
+            
             if(translate.isOutdated()) {
                 application.nStackConfig.log("Droplet cache is outdated removing it")
                 try cache.delete(cacheKey)
