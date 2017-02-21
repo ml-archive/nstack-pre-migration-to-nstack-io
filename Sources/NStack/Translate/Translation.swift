@@ -30,16 +30,20 @@ public struct Translation {
         self.platform = try node.extract("platform")
         self.language = try node.extract("language")
     
-        self.date = try Date.parse(.ISO8601, node.extract("date"), Date())
+        self.date = try Date.parse(.dateTime, node.extract("date"), Date())
     }
     
     func isOutdated() -> Bool {
         let cacheInMinutes = drop.config["nstack", "translate", "cacheInMinutes"]?.int ?? 60
 
         let secondsInMinutes: TimeInterval = Double(cacheInMinutes) * 60
-        let dateAtCacheExpiration: Date = Date().addingTimeInterval(-secondsInMinutes)
         
-        return dateAtCacheExpiration.isAfter(self.date)
+        let dateAtCacheExpiration: Date = self.date.addingTimeInterval(secondsInMinutes)
+        do {
+            try application.nStackConfig.log("Expiration of current cache is: " + dateAtCacheExpiration.toDateTimeString() + " current time is: " + Date().toDateTimeString())
+        } catch {}
+        
+        return dateAtCacheExpiration.isPast()
     }
     
     func get(section: String, key: String) -> String {
