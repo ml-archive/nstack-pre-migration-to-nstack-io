@@ -1,6 +1,7 @@
 import Vapor
 import Foundation
 import Cache
+import Sugar
 
 public struct Translation {
     
@@ -29,7 +30,7 @@ public struct Translation {
         self.platform = try node.extract("platform")
         self.language = try node.extract("language")
     
-        self.date = try Date.parse(node.extract("date"))
+        self.date = try Date.parse(.ISO8601, node.extract("date"), Date())
     }
     
     func isOutdated() -> Bool {
@@ -44,10 +45,13 @@ public struct Translation {
     func get(section: String, key: String) -> String {
         do {
             let data: Node = try self.json.extract("data")
-            let section: Node = try data.extract(section)
-            let key: String = try section.extract(key)
+            
+            let sectionNode: Node = try data.extract(section)
+            
+            let key: String = try sectionNode.extract(key)
             return key
         } catch  {
+            
             application.nStackConfig.log("NStack.Translate.get error:" + error.localizedDescription)
             return Translation.fallback(section: section, key: key)
         }

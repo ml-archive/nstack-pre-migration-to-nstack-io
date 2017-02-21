@@ -22,7 +22,7 @@ public class TranslationAttempt {
         
         for (key, value) in dates {
             do {
-                let date = Date.parse(key)
+            let date = Date.parse(.ISO8601, key, Date())
                 
                 // Any errors within few secs should give a break in trying again
                 if date.isAfter(datePreRetryPeriod) {
