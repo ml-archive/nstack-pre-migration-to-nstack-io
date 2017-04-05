@@ -13,8 +13,7 @@ Following features
 # Installation
 
 #### Config
-Create config nstack.json
-
+Create config `nstack.json`
 ```
 {
     "log": false,
@@ -36,23 +35,23 @@ Create config nstack.json
 
 ```
 
-### main.swift
-```
+### `main.swift`
+```swift
 import NStack
 ```
 
 And add provider
-```
+```swift
 try drop.addProvider(NStackProvider(drop: drop))
 ```
 
 Consider making a easy accessible var
-```
+```swift
 let translate = drop.nstack?.application.translate.self
 ```
 
 ### Usages
-```
+```swift
 // With shortcut
 translate?.get(section: "default", key: "ok")
 
