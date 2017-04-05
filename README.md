@@ -10,7 +10,7 @@ This package is a wrapper around the NStack.io API
 Following features
  - Translate
 
-#Installation
+# Installation
 
 #### Config
 Create config nstack.json
@@ -51,7 +51,7 @@ Consider making a easy accessible var
 let translate = drop.nstack?.application.translate.self
 ```
 
-###Usages
+### Usages
 ```
 // With shortcut
 translate?.get(section: "default", key: "ok")
