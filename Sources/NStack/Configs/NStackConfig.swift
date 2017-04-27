@@ -7,8 +7,11 @@ public struct NStackConfig {
         case applications = "applications"
         
         var error: Abort {
-            return .custom(status: .internalServerError,
-                           message: "NStack error - nstack.\(rawValue) config is missing.")
+            return Abort(
+                .internalServerError,
+                metadata: nil,
+                reason: "NStack error - nstack.\(rawValue) config is missing."
+            )
         }
     }
 
@@ -39,7 +42,7 @@ public struct NStackConfig {
         
         // Set applications
         try applicationArr.forEach({
-            try applications.append(ApplicationConfig(polymorphic: $0))
+            try applications.append(ApplicationConfig(config: $0))
         })
         
         self.applications = applications

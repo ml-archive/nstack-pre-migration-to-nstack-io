@@ -9,8 +9,11 @@ struct ApplicationConfig {
         case masterKey = "masterKey"
         
         var error: Abort {
-            return .custom(status: .internalServerError,
-                           message: "NStack error - nstack.applications[].\(rawValue) config is missing.")
+            return Abort(
+                .internalServerError,
+                metadata: nil,
+                reason: "NStack error - nstack.applications[].\(rawValue) config is missing."
+            )
         }
     }
     
@@ -18,14 +21,6 @@ struct ApplicationConfig {
     let applicationId: String
     let restKey: String
     let masterKey: String
-    
-    init(polymorphic: Polymorphic) throws {
-        guard let config = polymorphic as? Config else {
-            throw Abort.serverError
-        }
-        
-        try self.init(config: config)
-    }
     
     init(config: Config) throws {
         

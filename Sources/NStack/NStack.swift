@@ -53,7 +53,11 @@ public final class NStack {
             }
         }
         
-        throw Abort.custom(status: .internalServerError, message: "NStack - Application \(name) was not found")
+        throw Abort(
+            .internalServerError,
+            metadata: nil,
+            reason: "NStack - Application \(name) was not found"
+        )
     }
     
     public func setApplicationToDefault() -> Application {

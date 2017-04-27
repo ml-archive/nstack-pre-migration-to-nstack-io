@@ -29,7 +29,7 @@ public class TranslationAttempt {
             }
                 
             // Not found errors within few min should give a break in trying again
-            if date.isAfter(datePreNotFoundPeriod) && value.localizedDescription.equals(any: "notFound") {
+            if date.isAfter(datePreNotFoundPeriod) && value.localizedDescription == "notFound" {
                 return true
             }
             

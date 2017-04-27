@@ -15,19 +15,27 @@ public final class ConnectionMananger {
         headers["Accept-Language"] = language
         
         let url = baseUrl + "translate/" + platform + "/keys"
-        let translateResponse = try drop.client.get(url, headers: headers, query: [:])
-        
+        let translateResponse = try drop.client.get(url, query: [:], headers)
+
         if(translateResponse.status != .ok) {
             
             if(translateResponse.status.statusCode == 445) {
                 throw Abort.notFound
             }
             
-            throw Abort.custom(status: .internalServerError, message: "NStack error - Response was not OK")
+            throw Abort(
+                .internalServerError,
+                metadata: nil,
+                reason: "NStack error - Response was not OK"
+            )
         }
         
         guard let json: JSON = translateResponse.json else {
-            throw Abort.custom(status: .internalServerError, message: "NStack error - Could not unwrap json")
+            throw Abort(
+                .internalServerError,
+                metadata: nil,
+                reason: "NStack error - Could not unwrap json"
+            )
         }
         
         return Translation(drop: self.drop, application: application, json: json, platform: platform, language: language)

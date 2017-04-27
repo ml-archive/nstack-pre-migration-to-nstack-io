@@ -8,8 +8,11 @@ struct TranslateConfig {
         case cacheInMinutes = "cacheInMinutes"
         
         var error: Abort {
-            return .custom(status: .internalServerError,
-                           message: "NStack error - nstack.translate.\(rawValue) config is missing.")
+            return Abort(
+                .internalServerError,
+                metadata: nil,
+                reason: "NStack error - nstack.translate.\(rawValue) config is missing."
+            )
         }
     }
     
