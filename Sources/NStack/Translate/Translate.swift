@@ -86,7 +86,11 @@ public final class Translate {
             }
             
             application.nStackConfig.log("Failed lately and no cache")
-            throw Abort.custom(status: .internalServerError, message: "Failed lately and no cache to read from")
+            throw Abort(
+                .internalServerError,
+                metadata: nil,
+                reason: "Failed lately and no cache to read from"
+            )
         }
         
         // Try memory cache

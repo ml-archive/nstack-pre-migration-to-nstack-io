@@ -1,5 +1,5 @@
 import XCTest
-@testable import NStackTests
+@testable import NStack
 
 class NStackTests: XCTestCase {
     func test() {

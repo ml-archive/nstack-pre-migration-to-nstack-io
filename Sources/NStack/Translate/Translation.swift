@@ -26,11 +26,11 @@ public struct Translation {
         self.drop = drop
         self.application = application
         
-        self.json = try node.extract("json")
-        self.platform = try node.extract("platform")
-        self.language = try node.extract("language")
+        self.json = try node.get("json")
+        self.platform = try node.get("platform")
+        self.language = try node.get("language")
     
-        self.date = try Date.parse(.dateTime, node.extract("date"), Date())
+        self.date = try Date.parse(.dateTime, node.get("date"), Date())
     }
     
     func isOutdated() -> Bool {
@@ -48,11 +48,11 @@ public struct Translation {
     
     func get(section: String, key: String) -> String {
         do {
-            let data: Node = try self.json.extract("data")
+            let data: Node = try self.json.get("data")
             
-            let sectionNode: Node = try data.extract(section)
+            let sectionNode: Node = try data.get(section)
             
-            let key: String = try sectionNode.extract(key)
+            let key: String = try sectionNode.get(key)
             return key
         } catch  {
             
@@ -69,7 +69,7 @@ public struct Translation {
         return Node([
             "language": Node(language),
             "platform": Node(platform),
-            "json": json.node,
+            "json": Node(json),
             "date": try Node(date.toDateTimeString())
         ])
     }
