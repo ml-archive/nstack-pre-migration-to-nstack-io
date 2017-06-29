@@ -17,6 +17,12 @@ Supports the following features:
 
 ## 📦 Installation
 
+Update your `Package.swift` file.
+
+```swift
+.Package(url: "https://github.com/nodes-vapor/nstack.git", majorVersion: 1)
+```
+
 ### Config
 Create config `nstack.json`
 ```json
