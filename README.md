@@ -1,7 +1,8 @@
 # NStack
-[![Language](https://img.shields.io/badge/Swift-3-brightgreen.svg)](http://swift.org)
-[![Build Status](https://travis-ci.org/nodes-vapor/nstack.svg?branch=master)](https://travis-ci.org/nodes-vapor/nstack)
-[![codebeat badge](https://codebeat.co/badges/52c2f960-625c-4a63-ae63-52a24d747da1)](https://codebeat.co/projects/github-com-nodes-vapor-nstack)
+[![Swift Version](https://img.shields.io/badge/Swift-3-brightgreen.svg)](http://swift.org)
+[![Vapor Version](https://img.shields.io/badge/Vapor-1-F6CBCA.svg)](http://vapor.codes)
+[![Circle CI](https://circleci.com/gh/nodes-vapor/nstack/tree/vapor-1.svg?style=shield)](https://circleci.com/gh/nodes-vapor/nstack)
+[![codebeat badge](https://codebeat.co/badges/eb178c22-167c-44fd-b337-3a4fc0e74324)](https://codebeat.co/projects/github-com-nodes-vapor-nstack-vapor-1)
 [![codecov](https://codecov.io/gh/nodes-vapor/nstack/branch/master/graph/badge.svg)](https://codecov.io/gh/nodes-vapor/nstack)
 [![Readme Score](http://readme-score-api.herokuapp.com/score.svg?url=https://github.com/nodes-vapor/nstack)](http://clayallsopp.github.io/readme-score?url=https://github.com/nodes-vapor/nstack)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/nodes-vapor/nstack/master/LICENSE)
