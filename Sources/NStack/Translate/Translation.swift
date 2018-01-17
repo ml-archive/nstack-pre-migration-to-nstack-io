@@ -4,37 +4,36 @@ import Cache
 import Sugar
 
 public struct Translation {
-    
-    let drop: Droplet
     let application: Application
     let json: JSON
     let platform: String
     let language: String
     let date: Date
+    let translateConfig: TranslateConfig
     
-    init(drop: Droplet, application: Application, json: JSON, platform: String, language: String) {
-        self.drop = drop
+    init(translateConfig: TranslateConfig, application: Application, json: JSON, platform: String, language: String) {
         self.application = application
         self.json = json
         self.platform = platform
         self.language = language
+        self.translateConfig = translateConfig
         
         self.date = Date()
     }
     
-    init(drop: Droplet, application: Application, node: Node) throws {
-        self.drop = drop
+    init(translateConfig: TranslateConfig, application: Application, node: Node) throws {
         self.application = application
-        
+        self.translateConfig = translateConfig
+
         self.json = try node.get("json")
         self.platform = try node.get("platform")
         self.language = try node.get("language")
-    
+
         self.date = try Date.parse(.dateTime, node.get("date"), Date())
     }
-    
+
     func isOutdated() -> Bool {
-        let cacheInMinutes = drop.config["nstack", "translate", "cacheInMinutes"]?.int ?? 60
+        let cacheInMinutes = translateConfig.cacheInMinutes
 
         let secondsInMinutes: TimeInterval = Double(cacheInMinutes) * 60
         

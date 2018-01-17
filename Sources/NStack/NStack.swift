@@ -36,11 +36,11 @@ public final class NStack {
         self.defaultApplication = try setApplication(name: config.defaultApplication)
     }
     
-    public convenience init(drop: Droplet) throws {
-        let nStackConfig = try NStackConfig(drop: drop)
-        let connectionManager = ConnectionManager(drop: drop)
-        let cache = drop.cache
-        
+    public convenience init(config: Config) throws {
+        let nStackConfig = try NStackConfig(config: config)
+        let connectionManager = try ConnectionManager(translateConfig: nStackConfig.translate, clientFactory: config.resolveClient())
+        let cache = try config.resolveCache()
+
         try self.init(config: nStackConfig, connectionManager: connectionManager, cache: cache)
     }
     
