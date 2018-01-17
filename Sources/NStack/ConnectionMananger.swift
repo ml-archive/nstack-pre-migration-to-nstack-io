@@ -1,7 +1,7 @@
 import Vapor
 import HTTP
 
-public final class ConnectionMananger {
+public final class ConnectionManager {
     let drop: Droplet
     let baseUrl = "https://nstack.io/api/v1/"
 

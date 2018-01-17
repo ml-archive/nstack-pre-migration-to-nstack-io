@@ -3,7 +3,7 @@ import Foundation
 import Cache
 
 public final class NStack {
-    public let connectionManager: ConnectionMananger
+    public let connectionManager: ConnectionManager
     public let config: NStackConfig
     public let cache: CacheProtocol
     var defaultApplication: Application
@@ -11,15 +11,15 @@ public final class NStack {
     public let applications: [Application]
     public var application: Application
     
-    public init(config: NStackConfig, connectionMananger: ConnectionMananger, cache: CacheProtocol) throws {
+    public init(config: NStackConfig, connectionManager: ConnectionManager, cache: CacheProtocol) throws {
         self.config = config
-        self.connectionManager = connectionMananger
+        self.connectionManager = connectionManager
         self.cache = cache
         
         // Set applications
         var applications: [Application] = []
-        for applicaitonConfig in self.config.applications {
-            applications.append(Application(cache: cache, connectionManager: connectionMananger, applicationConfig: applicaitonConfig, nStackConfig: config))
+        for applicationConfig in self.config.applications {
+            applications.append(Application(cache: cache, connectionManager: connectionManager, applicationConfig: applicationConfig, nStackConfig: config))
         }
         
         self.applications = applications
@@ -38,10 +38,10 @@ public final class NStack {
     
     public convenience init(drop: Droplet) throws {
         let nStackConfig = try NStackConfig(drop: drop)
-        let connectionManager = ConnectionMananger(drop: drop)
+        let connectionManager = ConnectionManager(drop: drop)
         let cache = drop.cache
         
-        try self.init(config: nStackConfig, connectionMananger: connectionManager, cache: cache)
+        try self.init(config: nStackConfig, connectionManager: connectionManager, cache: cache)
     }
     
     public func setApplication(name: String) throws -> Application {
