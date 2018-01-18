@@ -19,7 +19,7 @@ Supports the following features:
 Update your `Package.swift` file.
 
 ```swift
-.Package(url: "https://github.com/nodes-vapor/nstack.git", majorVersion: 1)
+.Package(url: "https://github.com/nodes-vapor/nstack.git", majorVersion: 2)
 ```
 
 ### Config
@@ -45,39 +45,37 @@ Create config `nstack.json`
 
 ```
 
-
 ## Getting started 🚀
 
-### `main.swift`
+### `Config+Setup.swift`
 ```swift
 import NStack
 ```
 
 And add provider
 ```swift
-try drop.addProvider(NStackProvider(drop: drop))
-```
-
-Consider making a easy accessible var
-```swift
-let translate = drop.nstack?.application.translate.self
+try addProvider(NStackProvider.self)
 ```
 
 ### Usages
-```swift
-// With shortcut
-translate?.get(section: "default", key: "ok")
 
-// Through drop
-drop.nstack?.application.translate.get(platform: "backend", language: "en-UK", section: "default", key: "saveSuccess", replace: ["model": "test"])
+Consider making a easy accessible var
+```swift
+let translate = drop.nstack?.application.translate
 ```
 
+```swift
+// With default language and platform
+translate?.get(section: "default", key: "ok")
+
+// Specifying language and platform and replacing placeholders
+translate?.get(platform: "backend", language: "en-UK", section: "default", key: "saveSuccess", replace: ["model": "test"])
+```
 
 ## 🏆 Credits
 
 This package is developed and maintained by the Vapor team at [Nodes](https://www.nodesagency.com).
 The package owner for this project is [Rasmus](https://github.com/rasmusebbesen).
-
 
 ## 📄 License
 
