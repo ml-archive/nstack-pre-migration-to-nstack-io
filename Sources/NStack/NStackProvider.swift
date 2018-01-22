@@ -3,7 +3,7 @@ import Vapor
 public final class NStackProvider: Vapor.Provider {
     public static var repositoryName: String = "NStack"
 
-    var nstack: NStack? = nil
+    let nstack: NStack
 
     public func boot(_ drop: Droplet) {
         drop.nstack = nstack
