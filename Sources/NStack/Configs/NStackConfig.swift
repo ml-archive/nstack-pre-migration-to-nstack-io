@@ -27,6 +27,10 @@ public struct NStackConfig {
     }
     
     init(config: Config) throws {
+        guard let config: Config = config["nstack"] else {
+            throw ConfigError.nstack.error
+        }
+
         // set default application
         guard let defaultApplication: String = config["defaultApplication"]?.string else {
             throw ConfigError.defaultApplication.error
@@ -56,19 +60,4 @@ public struct NStackConfig {
         // Set translate
         self.translate = try TranslateConfig(optionalConfig: config["translate"])
     }
-    
-    init(drop: Droplet) throws {
-        // Set config
-        let optionalConfig = drop.config["nstack"]
-        
-        guard let config: Config = optionalConfig else {
-            throw ConfigError.nstack.error
-        }
-        
-        try self.init(config: config)
-    }
-    
-  
 }
-
-

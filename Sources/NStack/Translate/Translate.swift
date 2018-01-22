@@ -152,9 +152,9 @@ public final class Translate {
             guard let translateNode: Node = try cache.get(cacheKey) else {
                 return nil
             }
-            
-            let translate: Translation = try Translation(drop: application.connectionManager.drop, application: application, node: translateNode)
-            
+
+            let translate = try Translation(translateConfig: config, application: application, node: translateNode)
+
             if(translate.isOutdated()) {
                 application.nStackConfig.log("Droplet cache is outdated removing it")
                 try cache.delete(cacheKey)
@@ -162,7 +162,6 @@ public final class Translate {
             }
             
             return translate
-            
         } catch {
             application.nStackConfig.log("NStack.Translate.freshFromCache error: " + error.localizedDescription)
             return nil

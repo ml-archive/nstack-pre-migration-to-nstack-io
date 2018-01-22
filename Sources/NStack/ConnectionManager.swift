@@ -1,12 +1,19 @@
 import Vapor
 import HTTP
+import TLS
 
-public final class ConnectionMananger {
-    let drop: Droplet
-    let baseUrl = "https://nstack.io/api/v1/"
+public final class ConnectionManager {
+    static let baseUrl = "https://nstack.io/api/v1/"
+    private let client: ClientProtocol
+    private let translateConfig: TranslateConfig
 
-    public init(drop: Droplet) {
-        self.drop = drop
+    init(translateConfig: TranslateConfig, clientFactory: ClientFactoryProtocol) throws {
+        self.client = try clientFactory.makeClient(
+            hostname: ConnectionManager.baseUrl,
+            port: 443,
+            securityLayer: .tls(Context(.client))
+        )
+        self.translateConfig = translateConfig
     }
     
     func getTranslation(application: Application, platform: String, language: String) throws -> Translation {
@@ -14,8 +21,8 @@ public final class ConnectionMananger {
         var headers = self.authHeaders(application: application)
         headers["Accept-Language"] = language
         
-        let url = baseUrl + "translate/" + platform + "/keys"
-        let translateResponse = try drop.client.get(url, query: [:], headers)
+        let url = ConnectionManager.baseUrl + "translate/" + platform + "/keys"
+        let translateResponse = try client.get(url, query: [:], headers)
 
         if(translateResponse.status != .ok) {
             
@@ -38,7 +45,7 @@ public final class ConnectionMananger {
             )
         }
         
-        return Translation(drop: self.drop, application: application, json: json, platform: platform, language: language)
+        return Translation(translateConfig: translateConfig, application: application, json: json, platform: platform, language: language)
     }
     
     func authHeaders(application: Application) -> [HeaderKey : String] {
