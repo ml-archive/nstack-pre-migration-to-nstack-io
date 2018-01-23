@@ -2,7 +2,9 @@ import Vapor
 import Cache
 public struct Application{
     // Basic
-    let cache: CacheProtocol
+    var cache: CacheProtocol? {
+        return connectionManager.cache
+    }
     let connectionManager: ConnectionManager
     let applicationConfig: ApplicationConfig
     let nStackConfig: NStackConfig
@@ -16,8 +18,7 @@ public struct Application{
     let restKey: String
     let masterKey: String
     
-    init(cache: CacheProtocol, connectionManager: ConnectionManager, applicationConfig: ApplicationConfig, nStackConfig: NStackConfig){
-        self.cache = cache
+    init(connectionManager: ConnectionManager, applicationConfig: ApplicationConfig, nStackConfig: NStackConfig){
         self.connectionManager = connectionManager
         self.applicationConfig = applicationConfig
         self.nStackConfig = nStackConfig
@@ -28,5 +29,3 @@ public struct Application{
         self.masterKey = applicationConfig.masterKey
     }
 }
-
-

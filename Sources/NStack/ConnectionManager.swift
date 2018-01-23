@@ -1,18 +1,14 @@
-import Vapor
+import Cache
 import HTTP
-import TLS
+import Vapor
 
 public final class ConnectionManager {
     static let baseUrl = "https://nstack.io/api/v1/"
-    private let client: ClientProtocol
+    internal var client: ClientProtocol?
+    internal var cache: CacheProtocol?
     private let translateConfig: TranslateConfig
 
-    init(translateConfig: TranslateConfig, clientFactory: ClientFactoryProtocol) throws {
-        self.client = try clientFactory.makeClient(
-            hostname: ConnectionManager.baseUrl,
-            port: 443,
-            securityLayer: .tls(Context(.client))
-        )
+    init(translateConfig: TranslateConfig) throws {
         self.translateConfig = translateConfig
     }
     
@@ -22,6 +18,11 @@ public final class ConnectionManager {
         headers["Accept-Language"] = language
         
         let url = ConnectionManager.baseUrl + "translate/" + platform + "/keys"
+
+        guard let client = client else {
+            throw Abort(.internalServerError, reason: "Client is not set up")
+        }
+
         let translateResponse = try client.get(url, query: [:], headers)
 
         if(translateResponse.status != .ok) {
