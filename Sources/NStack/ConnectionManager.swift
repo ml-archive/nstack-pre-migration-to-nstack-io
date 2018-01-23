@@ -4,8 +4,8 @@ import Vapor
 
 public final class ConnectionManager {
     static let baseUrl = "https://nstack.io/api/v1/"
-    internal var client: ClientProtocol?
     internal var cache: CacheProtocol?
+    internal var client: ClientProtocol?
     private let translateConfig: TranslateConfig
 
     init(translateConfig: TranslateConfig) throws {
