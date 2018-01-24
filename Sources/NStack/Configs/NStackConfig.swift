@@ -26,7 +26,7 @@ public struct NStackConfig {
         }
     }
     
-    init(config: Config) throws {
+    public init(config: Config) throws {
         guard let config: Config = config["nstack"] else {
             throw ConfigError.nstack.error
         }

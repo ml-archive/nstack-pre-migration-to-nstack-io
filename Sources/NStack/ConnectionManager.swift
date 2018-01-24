@@ -1,19 +1,26 @@
-import Vapor
+import Cache
 import HTTP
 import TLS
+import Vapor
 
 public final class ConnectionManager {
-    static let baseUrl = "https://nstack.io/api/v1/"
-    private let client: ClientProtocol
+    private static let baseUrl = "https://nstack.io/api/v1/"
+    internal let cache: CacheProtocol
+    internal let client: ClientProtocol
     private let translateConfig: TranslateConfig
 
-    init(translateConfig: TranslateConfig, clientFactory: ClientFactoryProtocol) throws {
-        self.client = try clientFactory.makeClient(
+    public init(
+        cache: CacheProtocol,
+        clientFactory: ClientFactoryProtocol,
+        nStackConfig: NStackConfig
+    ) throws {
+        self.cache = cache
+        client = try clientFactory.makeClient(
             hostname: ConnectionManager.baseUrl,
             port: 443,
             securityLayer: .tls(Context(.client))
         )
-        self.translateConfig = translateConfig
+        translateConfig = nStackConfig.translate
     }
     
     func getTranslation(application: Application, platform: String, language: String) throws -> Translation {
@@ -22,6 +29,7 @@ public final class ConnectionManager {
         headers["Accept-Language"] = language
         
         let url = ConnectionManager.baseUrl + "translate/" + platform + "/keys"
+
         let translateResponse = try client.get(url, query: [:], headers)
 
         if(translateResponse.status != .ok) {

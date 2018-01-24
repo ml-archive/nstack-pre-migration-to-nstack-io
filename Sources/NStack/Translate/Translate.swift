@@ -6,9 +6,19 @@ public final class Translate {
     
     let application: Application
     let config: TranslateConfig
-    let cache: CacheProtocol
     var translations: [String: Translation] = [:]
     var attempts: [String: TranslationAttempt] = [:]
+
+    var cache: CacheProtocol? {
+        return application.cache
+    }
+
+    func assertCache() throws -> CacheProtocol {
+        guard let cache = cache else {
+            throw Abort(.internalServerError, reason: "Cache is not set up")
+        }
+        return cache
+    }
     
     public enum Platforms: String {
         case backend = "backend"
@@ -19,7 +29,6 @@ public final class Translate {
     
     public init(application: Application) {
         self.application = application
-        self.cache = application.cache
         config = application.nStackConfig.translate
     }
     
@@ -149,7 +158,7 @@ public final class Translate {
     {
         let cacheKey = Translate.cacheKey(platform: platform, language: language)
         do {
-            guard let translateNode: Node = try cache.get(cacheKey) else {
+            guard let translateNode: Node = try assertCache().get(cacheKey) else {
                 return nil
             }
 
@@ -157,7 +166,7 @@ public final class Translate {
 
             if(translate.isOutdated()) {
                 application.nStackConfig.log("Droplet cache is outdated removing it")
-                try cache.delete(cacheKey)
+                try assertCache().delete(cacheKey)
                 return nil
             }
             
@@ -178,7 +187,7 @@ public final class Translate {
             translations[cacheKey] = translate
             
             // Put in drop cache
-            try cache.set(cacheKey, translate.toNode())
+            try assertCache().set(cacheKey, translate.toNode())
         } catch {
             application.nStackConfig.log(error.localizedDescription)
         }
