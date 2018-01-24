@@ -1,27 +1,27 @@
-import TLS
 import Vapor
 
 public final class NStackProvider: Vapor.Provider {
     public static var repositoryName: String = "NStack"
 
-    let nstack: NStack
+    private let nStackConfig: NStackConfig
 
     public func boot(_ drop: Droplet) throws {
-        nstack.connectionManager.client = try drop.config.resolveClient()
-            .makeClient(
-                hostname: ConnectionManager.baseUrl,
-                port: 443,
-                securityLayer: .tls(Context(.client))
+        let connectionManager = try ConnectionManager(
+            cache: drop.cache,
+            clientFactory: drop.client,
+            nStackConfig: nStackConfig
         )
-        nstack.connectionManager.cache = try drop.config.resolveCache()
 
-        drop.nstack = nstack
+        drop.nstack = try NStack(
+            config: nStackConfig,
+            connectionManager: connectionManager
+        )
     }
 
-    public func boot(_ config: Vapor.Config) throws {}
+    public func boot(_ config: Config) throws {}
 
-    public init(config: Vapor.Config) throws {
-        nstack = try NStack(config: config)
+    public init(config: Config) throws {
+        nStackConfig = try NStackConfig(config: config)
     }
     
     public func beforeRun(_: Droplet) {}

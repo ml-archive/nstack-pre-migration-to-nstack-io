@@ -1,6 +1,5 @@
 import Cache
 import Foundation
-import TLS
 import Vapor
 
 public final class NStack {
@@ -33,24 +32,6 @@ public final class NStack {
         
         // Set picked application
         self.defaultApplication = try setApplication(name: config.defaultApplication)
-    }
-    
-    public convenience init(
-        config: Vapor.Config,
-        cache: CacheProtocol? = nil,
-        clientFactory: ClientFactoryProtocol? = nil
-    ) throws {
-        let nStackConfig = try NStackConfig(config: config)
-
-        let connectionManager = try ConnectionManager(translateConfig: nStackConfig.translate)
-        connectionManager.cache = cache
-        connectionManager.client = try clientFactory?.makeClient(
-            hostname: ConnectionManager.baseUrl,
-            port: 443,
-            securityLayer: .tls(Context(.client))
-        )
-
-        try self.init(config: nStackConfig, connectionManager: connectionManager)
     }
     
     public func setApplication(name: String) throws -> Application {
