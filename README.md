@@ -42,7 +42,12 @@ Create config `nstack.json`
         }
     ]
 }
-
+```
+Set client to foundation in `droplet.json`
+```json
+  ...
+  "client": "foundation",
+  ...
 ```
 
 ## Getting started 🚀
