@@ -42,7 +42,12 @@ Create config `nstack.json`
         }
     ]
 }
-
+```
+Make sure that client is set to foundation in `droplet.json` because the engine client does not properly support the required SSL connections.
+```json
+  ...
+  "client": "foundation",
+  ...
 ```
 
 ## Getting started 🚀
