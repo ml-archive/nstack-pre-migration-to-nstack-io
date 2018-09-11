@@ -1,6 +1,6 @@
 import Vapor
 import Foundation
-import Cache
+//import Cache
 
 public final class Translate {
     
@@ -9,16 +9,16 @@ public final class Translate {
     var translations: [String: Translation] = [:]
     var attempts: [String: TranslationAttempt] = [:]
 
-    var cache: CacheProtocol? {
-        return application.cache
-    }
+//    var cache: CacheProtocol? {
+//        return application.cache
+//    }
 
-    func assertCache() throws -> CacheProtocol {
-        guard let cache = cache else {
-            throw Abort(.internalServerError, reason: "Cache is not set up")
-        }
-        return cache
-    }
+//    func assertCache() throws -> CacheProtocol {
+//        guard let cache = cache else {
+//            throw Abort(.internalServerError, reason: "Cache is not set up")
+//        }
+//        return cache
+//    }
     
     public enum Platforms: String {
         case backend = "backend"

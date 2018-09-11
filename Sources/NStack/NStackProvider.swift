@@ -1,28 +1,22 @@
 import Vapor
 
-public final class NStackProvider: Vapor.Provider {
-    public static var repositoryName: String = "NStack"
+public final class NStackProvider {
 
-    private let nStackConfig: NStackConfig
+    public let config: NStackConfig
 
-    public func boot(_ drop: Droplet) throws {
-        let connectionManager = try ConnectionManager(
-            cache: drop.cache,
-            clientFactory: drop.client,
-            nStackConfig: nStackConfig
-        )
-
-        drop.nstack = try NStack(
-            config: nStackConfig,
-            connectionManager: connectionManager
-        )
+    public init(config: NStackConfig) {
+        self.config = config
     }
 
-    public func boot(_ config: Config) throws {}
-
-    public init(config: Config) throws {
-        nStackConfig = try NStackConfig(config: config)
+    public func register(_ services: inout Services) throws {
+        services.register(config)
+        services.register(NStack.self)
     }
-    
-    public func beforeRun(_: Droplet) {}
+}
+
+extension NStackProvider: Provider {
+
+    public func didBoot(_ container: Container) throws -> EventLoopFuture<Void> {
+        return .done(on: container)
+    }
 }

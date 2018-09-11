@@ -1,6 +1,6 @@
 import Vapor
 import Foundation
-import Cache
+//import Cache
 import Sugar
 
 public struct Translation {

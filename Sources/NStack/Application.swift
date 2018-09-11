@@ -1,10 +1,12 @@
 import Vapor
-import Cache
+//import Cache
+
 public struct Application{
     // Basic
-    var cache: CacheProtocol? {
-        return connectionManager.cache
-    }
+//    var cache: CacheProtocol? {
+//        return connectionManager.cache
+//    }
+
     let connectionManager: ConnectionManager
     let applicationConfig: ApplicationConfig
     let nStackConfig: NStackConfig

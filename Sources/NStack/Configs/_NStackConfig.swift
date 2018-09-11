@@ -1,6 +1,9 @@
 import Vapor
-public struct NStackConfig {
+
+public struct NStackConfig: Codable {
+
     enum ConfigError: String {
+        
         case nstack = "nstack"
         case defaultApplication = "defaultApplication"
         case log = "log"

@@ -1,25 +1,26 @@
-import Cache
+//import Cache
 import HTTP
-import TLS
+//import TLS
 import Vapor
 
 public final class ConnectionManager {
     private static let baseUrl = "https://nstack.io/api/v1/"
-    internal let cache: CacheProtocol
+//    internal let cache: CacheProtocol
     internal let client: ClientProtocol
     private let translateConfig: TranslateConfig
 
     public init(
-        cache: CacheProtocol,
+//        cache: CacheProtocol,
         clientFactory: ClientFactoryProtocol,
         nStackConfig: NStackConfig
     ) throws {
-        self.cache = cache
+//        self.cache = cache
         client = try clientFactory.makeClient(
             hostname: ConnectionManager.baseUrl,
             port: 443,
             securityLayer: .tls(Context(.client))
         )
+        
         translateConfig = nStackConfig.translate
     }
     
