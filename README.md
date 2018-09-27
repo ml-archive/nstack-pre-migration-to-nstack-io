@@ -62,6 +62,24 @@ And add provider
 try addProvider(NStackProvider.self)
 ```
 
+### `Droplet+Setup.swift`
+```swift
+import NStack
+```
+
+And register the nstack leaf tag
+```swift
+extension Droplet {
+    // ...
+    guard let leaf = view as? LeafRenderer else {
+        fatalError("Leaf not configured.")
+    }
+
+    leaf.stem.register(NStackTag(nStack: self.nstack))
+    // ...
+}
+```
+
 ### Usages
 
 Consider making a easy accessible var
@@ -75,6 +93,11 @@ translate?.get(section: "default", key: "ok")
 
 // Specifying language and platform and replacing placeholders
 translate?.get(platform: "backend", language: "en-UK", section: "default", key: "saveSuccess", replace: ["model": "test"])
+```
+
+Leaf usage yields a translated string or the given key if translationfails
+```swift
+#nstack("camelCasedSection", "camelCasedKey")
 ```
 
 ## 🏆 Credits
