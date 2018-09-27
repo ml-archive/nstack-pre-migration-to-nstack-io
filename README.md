@@ -95,7 +95,7 @@ translate?.get(section: "default", key: "ok")
 translate?.get(platform: "backend", language: "en-UK", section: "default", key: "saveSuccess", replace: ["model": "test"])
 ```
 
-Leaf usage yields a translated string or the given key if translationfails
+Leaf usage yields a translated string or the given key if translation fails
 ```swift
 #nstack("camelCasedSection", "camelCasedKey")
 ```
