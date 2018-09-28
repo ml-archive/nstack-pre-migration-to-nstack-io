@@ -97,7 +97,11 @@ translate?.get(platform: "backend", language: "en-UK", section: "default", key: 
 
 Leaf usage yields a translated string or the given key if translation fails
 ```swift
+// Get translation for camelCasedSection.camelCasedKey
 #nstack("camelCasedSection", "camelCasedKey")
+
+// Get translation for camelCasedSection.camelCasedKey and replace searchString1 with replaceString1 etc
+#nstack("camelCasedSection", "camelCasedKey", "searchString1", "replaceString1", "searchString2", "replaceString2", ...)
 ```
 
 ## 🏆 Credits
