@@ -5,7 +5,7 @@ import Vapor
 /// #nstack:translate("section", "key")
 /// #nstack:translate("section", "key", "search1", "replace1", "search2, "replace2", ...)
 ///
-/// Note: Uses the default application and default translate configuration!
+/// Note: Uses the currently selected NStack application and default translate configuration!
 public final class TranslateTag: TagRenderer {
 
     private let nstack: NStack
