@@ -19,8 +19,8 @@ public final class TranslateTag: TagRenderer {
         guard
             let section = tag.parameters[safe: 0]?.string,
             let key = tag.parameters[safe: 1]?.string
-            else {
-                throw tag.error(reason: "Expected at least section + key name parameters.")
+        else {
+            throw tag.error(reason: "Expected at least section + key name parameters.")
         }
 
         var searchReplacePairs = [String:String]()
@@ -29,11 +29,9 @@ public final class TranslateTag: TagRenderer {
             if
                 let search = tag.parameters[safe: index]?.string,
                 let replace = tag.parameters[safe: index+1]?.string {
-
                 searchReplacePairs[search] = replace
 
             } else {
-
                 break
             }
         }
