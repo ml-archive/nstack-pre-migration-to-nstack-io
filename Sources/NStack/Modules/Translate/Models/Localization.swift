@@ -24,9 +24,8 @@ internal struct Localization: Codable {
         self.date = Date()
     }
 
-    internal func isOutdated() -> Bool {
+    internal func isOutdated(_ cacheInMinutes: Int) -> Bool {
 
-        let cacheInMinutes = 99
         let cacheInSeconds: TimeInterval = Double(cacheInMinutes) * 60
         let expirationDate: Date = self.date.addingTimeInterval(cacheInSeconds)
 //        application.connectionManager.logger.log("Expiration of current cache is: \(expirationDate), current time is: \(Date())")

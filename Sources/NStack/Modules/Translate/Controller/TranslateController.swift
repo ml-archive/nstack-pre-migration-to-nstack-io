@@ -138,7 +138,7 @@ public final class TranslateController {
         }
 
         // If outdated remove
-        if localization.isOutdated() {
+        if localization.isOutdated(self.config.cacheInMinutes) {
             localizations.removeValue(forKey: cacheKey)
             return nil
         }
@@ -156,7 +156,7 @@ public final class TranslateController {
 
         return cache.get(cacheKey, as: Localization.self).map { localization in
 
-            if let localization = localization, localization.isOutdated() {
+            if let localization = localization, localization.isOutdated(self.config.cacheInMinutes) {
                 self.application.connectionManager.logger.log("Droplet cache is outdated removing it")
                 _ = self.cache.remove(cacheKey)
                 return nil
