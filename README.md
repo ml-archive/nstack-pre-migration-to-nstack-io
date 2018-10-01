@@ -9,7 +9,8 @@
 
 This package is a wrapper around the NStack.io API.
 
-Supports the following features:
+Supports the following NStack modules:
+
 - Translate
 
 
