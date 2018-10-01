@@ -16,7 +16,7 @@ public extension NStack {
             defaultTranslateConfig: Translate.Config = Translate.Config.default,
             log: Bool = false,
             baseURL: String = "https://nstack.io/api/v1/"
-            ) {
+        ) {
             self.applicationConfigs = applicationConfigs
             self.defaultApplicationName = defaultApplicationName ?? applicationConfigs[0].name
             self.defaultTranslateConfig = defaultTranslateConfig

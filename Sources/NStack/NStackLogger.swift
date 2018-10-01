@@ -4,7 +4,7 @@ internal final class NStackLogger {
 
     internal let config: NStack.Config
 
-    init(config: NStack.Config) {
+    internal init(config: NStack.Config) {
         self.config = config
     }
 
@@ -17,8 +17,8 @@ internal final class NStackLogger {
 
 extension NStackLogger: ServiceType {
 
-    public static func makeService(for worker: Container) throws -> Self {
-        let config = try worker.make(NStack.Config.self)
+    public static func makeService(for container: Container) throws -> Self {
+        let config = try container.make(NStack.Config.self)
         return self.init(config: config)
     }
 }

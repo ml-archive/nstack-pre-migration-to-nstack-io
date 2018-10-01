@@ -3,6 +3,8 @@ import Foundation
 import Vapor
 import HTTP
 
+public typealias Translate = TranslateController
+
 public final class NStack {
 
     public var application: Application
@@ -57,9 +59,10 @@ extension NStack: ServiceType {
         let config = try worker.make(NStack.Config.self)
         let logger = try worker.make(NStackLogger.self)
         let cache = try worker.make(KeyedCache.self)
+        let client = try worker.make(Client.self)
 
         let connectionManager = try ConnectionManager(
-            client: FoundationClient.default(on: worker),
+            client: client,
             config: config,
             cache: cache,
             logger: logger

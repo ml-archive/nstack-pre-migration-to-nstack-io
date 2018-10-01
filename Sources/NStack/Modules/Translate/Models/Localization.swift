@@ -1,20 +1,19 @@
 import Vapor
 import Foundation
 
-public struct Localization: Codable {
+internal struct Localization: Codable {
 
-    public typealias Section = String
-    public typealias Key = String
-    public typealias Translation = String
-    public typealias LocalizationFormat = [Section: [Key: Translation]]
+    internal typealias Section = String
+    internal typealias Key = String
+    internal typealias Translation = String
+    internal typealias LocalizationFormat = [Section: [Key: Translation]]
 
-//    let application: Application
-    let translations: LocalizationFormat
-    let platform: Translate.Platform
-    let language: String
-    let date: Date
+    internal let translations: LocalizationFormat
+    internal let platform: Translate.Platform
+    internal let language: String
+    internal let date: Date
 
-    init(
+    internal init(
         responseData: ResponseData,
         platform: Translate.Platform,
         language: String
@@ -25,7 +24,7 @@ public struct Localization: Codable {
         self.date = Date()
     }
 
-    func isOutdated() -> Bool {
+    internal func isOutdated() -> Bool {
 
         let cacheInMinutes = 99
         let cacheInSeconds: TimeInterval = Double(cacheInMinutes) * 60
@@ -35,7 +34,7 @@ public struct Localization: Codable {
         return (expirationDate.compare(Date()) == .orderedAscending)
     }
 
-    func get(section: Section, key: Key) -> Translation {
+    internal func get(section: Section, key: Key) -> Translation {
 
         guard let translation = translations[section]?[key] else {
 
@@ -45,7 +44,7 @@ public struct Localization: Codable {
         return translation
     }
 
-    public static func fallback(section: Section, key: Key) -> Translation {
+    internal static func fallback(section: Section, key: Key) -> Translation {
         return section + "." + key
     }
 }

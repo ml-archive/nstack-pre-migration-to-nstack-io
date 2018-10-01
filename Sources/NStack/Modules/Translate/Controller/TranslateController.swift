@@ -1,7 +1,7 @@
 import Vapor
 import Foundation
 
-public final class Translate {
+public final class TranslateController {
 
     let application: Application
     let config: Translate.Config
@@ -14,7 +14,7 @@ public final class Translate {
         case backend, api, web, mobile
     }
 
-    public init(application: Application, config: Translate.Config) {
+    internal init(application: Application, config: Translate.Config) {
         self.application = application
         self.config = config
     }
@@ -25,7 +25,7 @@ public final class Translate {
         language: String? = nil,
         section: String,
         key: String,
-        replace: [String: String]? = nil
+        searchReplacePairs: [String: String]? = nil
     ) -> Future<String> {
 
         let platform = platform ?? self.config.defaultPlatform
@@ -46,9 +46,9 @@ public final class Translate {
                     var value = localization.get(section: section, key: key)
 
                     // Search / Replace placeholders
-                    if let replace = replace {
-                        for(replaceKey, replaceValue) in replace {
-                            value = value.replacingOccurrences(of: self.config.placeholderPrefix + replaceKey + self.config.placeholderSuffix, with: replaceValue)
+                    if let searchReplacePairs = searchReplacePairs {
+                        for(search, replace) in searchReplacePairs {
+                            value = value.replacingOccurrences(of: self.config.placeholderPrefix + search + self.config.placeholderSuffix, with: replace)
                         }
                     }
                     return value
@@ -70,7 +70,7 @@ public final class Translate {
         language: String
     ) throws -> Future<Localization?> {
 
-        let cacheKey = Translate.cacheKey(platform: platform, language: language)
+        let cacheKey = TranslateController.cacheKey(platform: platform, language: language)
 
         // Look up attempt
         if let attempt: TranslationAttempt = attempts[cacheKey], attempt.avoidFetchingAgain() {
@@ -122,7 +122,7 @@ public final class Translate {
                         .transform(to: localization)
                 }
             } catch {
-                self.attempts[Translate.cacheKey(platform: platform, language: language)] = try TranslationAttempt(error: error)
+                self.attempts[TranslateController.cacheKey(platform: platform, language: language)] = try TranslationAttempt(error: error)
                 throw error
             }
         }
@@ -130,7 +130,7 @@ public final class Translate {
 
     private final func freshFromMemory(platform: Platform, language: String) -> Localization?
     {
-        let cacheKey = "\(Translate.cacheKey(platform: platform, language: language))"
+        let cacheKey = "\(TranslateController.cacheKey(platform: platform, language: language))"
 
         // Look up in memory
         guard let localization: Localization = localizations[cacheKey] else {
@@ -152,7 +152,7 @@ public final class Translate {
         language: String
     ) -> Future<Localization?> {
 
-        let cacheKey = Translate.cacheKey(platform: platform, language: language)
+        let cacheKey = TranslateController.cacheKey(platform: platform, language: language)
 
         return cache.get(cacheKey, as: Localization.self).map { localization in
 
@@ -167,7 +167,7 @@ public final class Translate {
 
     private final func setCache(localization: Localization) -> Future<Void> {
 
-        let cacheKey = Translate.cacheKey(
+        let cacheKey = TranslateController.cacheKey(
             platform: localization.platform,
             language: localization.language
         )

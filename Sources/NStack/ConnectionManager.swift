@@ -8,7 +8,7 @@ internal final class ConnectionManager {
     internal let cache: KeyedCache
     internal let logger: NStackLogger
 
-    init(
+    internal init(
         client: Client,
         config: NStack.Config,
         cache: KeyedCache,
@@ -20,7 +20,7 @@ internal final class ConnectionManager {
         self.logger = logger
     }
     
-    func getTranslation(
+    internal func getTranslation(
         application: Application,
         platform: Translate.Platform,
         language: String
@@ -51,7 +51,7 @@ internal final class ConnectionManager {
         }
     }
 
-    func authHeaders(application: Application) -> HTTPHeaders {
+    private func authHeaders(application: Application) -> HTTPHeaders {
         return [
             "Accept":"application/json",
             "X-Application-Id": application.applicationId,

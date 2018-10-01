@@ -14,12 +14,12 @@ public struct Application {
 
     internal var cache: KeyedCache { get { return connectionManager.cache }}
     
-    public lazy var translate: Translate = Translate(
+    public lazy var translate: TranslateController = TranslateController(
         application: self,
         config: self.translateConfig ?? Translate.Config.default
     )
 
-    init(
+    internal init(
         connectionManager: ConnectionManager,
         config: NStack.Config,
         applicationConfig: Application.Config,
@@ -29,28 +29,5 @@ public struct Application {
         self.config = config
         self.applicationConfig = applicationConfig
         self.translateConfig = translateConfig ?? Translate.Config.default
-    }
-}
-
-public extension Application {
-
-    public struct Config: Codable {
-
-        let name: String
-        let applicationId: String
-        let restKey: String
-        let masterKey: String
-
-        public init(
-            name: String,
-            applicationId: String,
-            restKey: String,
-            masterKey: String
-            ) {
-            self.name = name
-            self.applicationId = applicationId
-            self.restKey = restKey
-            self.masterKey = masterKey
-        }
     }
 }

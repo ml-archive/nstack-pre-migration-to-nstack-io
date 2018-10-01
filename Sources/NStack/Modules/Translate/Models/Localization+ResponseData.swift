@@ -1,19 +1,16 @@
-import Vapor
-import Foundation
-
 extension Localization {
 
-    public struct ResponseData: Codable {
+    internal struct ResponseData: Codable {
 
-        public let translations: LocalizationFormat
-        public let meta: Meta
+        internal let translations: LocalizationFormat
+        internal let meta: Meta
 
-        public struct Meta: Codable {
+        internal struct Meta: Codable {
 
-            public let language: Language
-            public let acceptLanguage: String
+            internal let language: Language
+            internal let acceptLanguage: String
 
-            public struct Language: Codable {
+            internal struct Language: Codable {
 
                 let id: Int
                 let name: String
