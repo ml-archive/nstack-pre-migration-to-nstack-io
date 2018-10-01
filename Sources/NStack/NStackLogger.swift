@@ -2,14 +2,14 @@ import Vapor
 
 internal final class NStackLogger {
 
-    internal let config: NStack.Config
+    internal let enabled: Bool
 
-    internal init(config: NStack.Config) {
-        self.config = config
+    internal init(enabled: Bool) {
+        self.enabled = enabled
     }
 
     internal func log(_ message: String) {
-        if self.config.log {
+        if enabled {
             debugPrint("[NStack] \(message)")
         }
     }
@@ -17,8 +17,15 @@ internal final class NStackLogger {
 
 extension NStackLogger: ServiceType {
 
-    public static func makeService(for container: Container) throws -> Self {
-        let config = try container.make(NStack.Config.self)
-        return self.init(config: config)
+    public static func makeService(for container: Container) -> Self {
+
+        var enabled: Bool = false
+        do {
+            let config = try container.make(NStack.Config.self)
+            enabled = config.log
+        } catch {
+            debugPrint("[NStack] No `NStack.Config` found. Log will be disabled.")
+        }
+        return self.init(enabled: enabled)
     }
 }

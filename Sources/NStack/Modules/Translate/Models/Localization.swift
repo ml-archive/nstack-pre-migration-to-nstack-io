@@ -24,20 +24,20 @@ internal struct Localization: Codable {
         self.date = Date()
     }
 
-    internal func isOutdated(_ cacheInMinutes: Int) -> Bool {
+    internal func isOutdated(on worker: Container, _ cacheInMinutes: Int) -> Bool {
 
         let cacheInSeconds: TimeInterval = Double(cacheInMinutes) * 60
         let expirationDate: Date = self.date.addingTimeInterval(cacheInSeconds)
-//        application.connectionManager.logger.log("Expiration of current cache is: \(expirationDate), current time is: \(Date())")
 
+        try? worker.make(NStackLogger.self).log("Expiration of current cache is: \(expirationDate), current time is: \(Date())")
         return (expirationDate.compare(Date()) == .orderedAscending)
     }
 
-    internal func get(section: Section, key: Key) -> Translation {
+    internal func get(on worker: Container, section: Section, key: Key) -> Translation {
 
         guard let translation = translations[section]?[key] else {
 
-//            application.connectionManager.logger.log("No translation found for section '\(section)' and key '\(key)'")
+            try? worker.make(NStackLogger.self).log("No translation found for section '\(section)' and key '\(key)'")
             return Localization.fallback(section: section, key: key)
         }
         return translation

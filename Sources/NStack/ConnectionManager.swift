@@ -6,18 +6,15 @@ internal final class ConnectionManager {
     internal let client: Client
     internal let config: NStack.Config
     internal let cache: KeyedCache
-    internal let logger: NStackLogger
 
     internal init(
         client: Client,
         config: NStack.Config,
-        cache: KeyedCache,
-        logger: NStackLogger
+        cache: KeyedCache
     ) throws {
         self.client = client
         self.config = config
         self.cache = cache
-        self.logger = logger
     }
     
     internal func getTranslation(

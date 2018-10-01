@@ -20,7 +20,7 @@ public final class TranslateController {
     }
 
     public final func get(
-        on worker: Worker,
+        on worker: Container,
         platform: Platform? = nil,
         language: String? = nil,
         section: String,
@@ -31,7 +31,7 @@ public final class TranslateController {
         let platform = platform ?? self.config.defaultPlatform
         let language = language ?? self.config.defaultLanguage
 
-        application.connectionManager.logger.log("Requesting translate for platform: \(platform) - language: \(language) - section: \(section) - key: \(key)")
+        try? worker.make(NStackLogger.self).log("Requesting translate for platform: \(platform) - language: \(language) - section: \(section) - key: \(key)")
 
         do {
 
@@ -43,7 +43,7 @@ public final class TranslateController {
 
                 if let localization = localization {
 
-                    var value = localization.get(section: section, key: key)
+                    var value = localization.get(on: worker, section: section, key: key)
 
                     // Search / Replace placeholders
                     if let searchReplacePairs = searchReplacePairs {
@@ -65,7 +65,7 @@ public final class TranslateController {
     }
 
     private final func fetchLocalization(
-        on worker: Worker,
+        on worker: Container,
         platform: Platform,
         language: String
     ) throws -> Future<Localization?> {
@@ -74,7 +74,8 @@ public final class TranslateController {
 
         // Look up attempt
         if let attempt: TranslationAttempt = attempts[cacheKey], attempt.avoidFetchingAgain() {
-            application.connectionManager.logger.log("Failed lately, no reason to try again")
+
+            try? worker.make(NStackLogger.self).log("Failed lately, no reason to try again")
 
             // Try vapor cache
             return freshFromCache(
@@ -84,17 +85,21 @@ public final class TranslateController {
             ).map { localization in
 
                 if let _ = localization {
-                    self.application.connectionManager.logger.log("Vapor cache used as fallback")
+                    try? worker.make(NStackLogger.self).log("Vapor cache used as fallback")
                 } else {
-                    self.application.connectionManager.logger.log("Failed lately and no cache")
+                    try? worker.make(NStackLogger.self).log("Failed lately and no cache")
                 }
                 return localization
             }
         }
 
         // Try memory cache
-        if let memoryLocalization = freshFromMemory(platform: platform, language: language) {
-            application.connectionManager.logger.log("Memory cache used")
+        if let memoryLocalization = freshFromMemory(
+            on: worker,
+            platform: platform,
+            language: language
+        ) {
+            try? worker.make(NStackLogger.self).log("Memory cache used")
             return worker.future(memoryLocalization)
         }
 
@@ -106,7 +111,7 @@ public final class TranslateController {
         ).flatMap { cachedLocalization in
 
             if let cachedLocalization = cachedLocalization {
-                self.application.connectionManager.logger.log("Vapor cache used as fallback")
+                try? worker.make(NStackLogger.self).log("Vapor cache used as fallback")
                 return worker.future(cachedLocalization)
             }
 
@@ -118,7 +123,8 @@ public final class TranslateController {
                     platform: platform,
                     language: language
                 ).flatMap { localization in
-                    return self.setCache(localization: localization).map{}
+                    return self.setCache(on: worker, localization: localization)
+                        .map{}
                         .transform(to: localization)
                 }
             } catch {
@@ -128,8 +134,12 @@ public final class TranslateController {
         }
     }
 
-    private final func freshFromMemory(platform: Platform, language: String) -> Localization?
-    {
+    private final func freshFromMemory(
+        on worker: Container,
+        platform: Platform,
+        language: String
+    ) -> Localization? {
+
         let cacheKey = "\(TranslateController.cacheKey(platform: platform, language: language))"
 
         // Look up in memory
@@ -138,7 +148,7 @@ public final class TranslateController {
         }
 
         // If outdated remove
-        if localization.isOutdated(self.config.cacheInMinutes) {
+        if localization.isOutdated(on: worker, self.config.cacheInMinutes) {
             localizations.removeValue(forKey: cacheKey)
             return nil
         }
@@ -147,7 +157,7 @@ public final class TranslateController {
     }
 
     private final func freshFromCache(
-        on worker: Worker,
+        on worker: Container,
         platform: Platform,
         language: String
     ) -> Future<Localization?> {
@@ -156,8 +166,11 @@ public final class TranslateController {
 
         return cache.get(cacheKey, as: Localization.self).map { localization in
 
-            if let localization = localization, localization.isOutdated(self.config.cacheInMinutes) {
-                self.application.connectionManager.logger.log("Droplet cache is outdated removing it")
+            if let localization = localization, localization.isOutdated(
+                on: worker,
+                self.config.cacheInMinutes
+            ) {
+                try? worker.make(NStackLogger.self).log("Droplet cache is outdated removing it")
                 _ = self.cache.remove(cacheKey)
                 return nil
             }
@@ -165,13 +178,16 @@ public final class TranslateController {
         }
     }
 
-    private final func setCache(localization: Localization) -> Future<Void> {
+    private final func setCache(
+        on worker: Container,
+        localization: Localization
+    ) -> Future<Void> {
 
         let cacheKey = TranslateController.cacheKey(
             platform: localization.platform,
             language: localization.language
         )
-        application.connectionManager.logger.log("Caching translate on key: \(cacheKey)")
+        try? worker.make(NStackLogger.self).log("Caching translate on key: \(cacheKey)")
 
         // Put in memory cache
         localizations[cacheKey] = localization

@@ -57,16 +57,15 @@ extension NStack: ServiceType {
     public static func makeService(for worker: Container) throws -> Self {
 
         let config = try worker.make(NStack.Config.self)
-        let logger = try worker.make(NStackLogger.self)
         let cache = try worker.make(KeyedCache.self)
         let client = try worker.make(Client.self)
 
         let connectionManager = try ConnectionManager(
             client: client,
             config: config,
-            cache: cache,
-            logger: logger
+            cache: cache
         )
+
         return try self.init(
             connectionManager: connectionManager,
             config: config
