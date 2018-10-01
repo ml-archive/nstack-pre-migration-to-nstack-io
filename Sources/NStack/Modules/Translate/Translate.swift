@@ -48,8 +48,7 @@ public final class Translate {
                     // Search / Replace placeholders
                     if let replace = replace {
                         for(replaceKey, replaceValue) in replace {
-                            // TODO: make delimiters configurable
-                            value = value.replacingOccurrences(of: "{" + replaceKey + "}", with: replaceValue)
+                            value = value.replacingOccurrences(of: self.config.placeholderPrefix + replaceKey + self.config.placeholderSuffix, with: replaceValue)
                         }
                     }
                     return value
