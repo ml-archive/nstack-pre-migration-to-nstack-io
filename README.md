@@ -22,8 +22,8 @@ Add `NStack` to the Package dependencies:
 
 ```swift
 dependencies: [
-...,
-.package(url: "https://github.com/nodes-vapor/nstack.git", .upToNextMinor(from: "3.0.0"))
+	//...,
+	.package(url: "https://github.com/nodes-vapor/nstack.git", .upToNextMinor(from: "3.0.0"))
 ]
 ```
 
@@ -31,12 +31,9 @@ as well as to your target (e.g. "App"):
 
 ```swift
 targets: [
-...
-.target(
-name: "App",
-dependencies: [... "NStack" ...]
-),
-...
+	//...
+	.target(name: "App", dependencies: [..., "NStack", ...]),
+	//...
 ]
 ```
 
