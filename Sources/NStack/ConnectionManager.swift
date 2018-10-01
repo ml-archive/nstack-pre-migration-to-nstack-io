@@ -1,63 +1,57 @@
-//import Cache
 import HTTP
-//import TLS
 import Vapor
 
-public final class ConnectionManager {
-    private static let baseUrl = "https://nstack.io/api/v1/"
-//    internal let cache: CacheProtocol
-    internal let client: ClientProtocol
-    private let translateConfig: TranslateConfig
+internal final class ConnectionManager {
 
-    public init(
-//        cache: CacheProtocol,
-        clientFactory: ClientFactoryProtocol,
-        nStackConfig: NStackConfig
+    internal let client: Client
+    internal let config: NStack.Config
+    internal let cache: KeyedCache
+    internal let logger: NStackLogger
+
+    init(
+        client: Client,
+        config: NStack.Config,
+        cache: KeyedCache,
+        logger: NStackLogger
     ) throws {
-//        self.cache = cache
-        client = try clientFactory.makeClient(
-            hostname: ConnectionManager.baseUrl,
-            port: 443,
-            securityLayer: .tls(Context(.client))
-        )
-        
-        translateConfig = nStackConfig.translate
+        self.client = client
+        self.config = config
+        self.cache = cache
+        self.logger = logger
     }
     
-    func getTranslation(application: Application, platform: String, language: String) throws -> Translation {
-        
+    func getTranslation(
+        application: Application,
+        platform: Translate.Platform,
+        language: String
+    ) throws -> Future<Localization> {
+
         var headers = self.authHeaders(application: application)
-        headers["Accept-Language"] = language
-        
-        let url = ConnectionManager.baseUrl + "translate/" + platform + "/keys"
+        headers.add(name: "Accept-Language", value: language)
 
-        let translateResponse = try client.get(url, query: [:], headers)
+        let url = config.baseURL + "translate/" + platform.rawValue + "/keys"
 
-        if(translateResponse.status != .ok) {
-            
-            if(translateResponse.status.statusCode == 445) {
-                throw Abort.notFound
+        let translateResponse = client.get(url, headers: headers)
+
+        return translateResponse.flatMap { response in
+
+            guard response.http.status == .ok else {
+                throw Abort(response.http.status)
             }
-            
-            throw Abort(
-                .internalServerError,
-                metadata: nil,
-                reason: "NStack error - Response was not OK"
-            )
+
+            return try response.content.decode(Localization.ResponseData.self)
+                .map { responseData in
+
+                return Localization(
+                    responseData: responseData,
+                    platform: platform,
+                    language: language
+                )
+            }
         }
-        
-        guard let json: JSON = translateResponse.json else {
-            throw Abort(
-                .internalServerError,
-                metadata: nil,
-                reason: "NStack error - Could not unwrap json"
-            )
-        }
-        
-        return Translation(translateConfig: translateConfig, application: application, json: json, platform: platform, language: language)
     }
-    
-    func authHeaders(application: Application) -> [HeaderKey : String] {
+
+    func authHeaders(application: Application) -> HTTPHeaders {
         return [
             "Accept":"application/json",
             "X-Application-Id": application.applicationId,

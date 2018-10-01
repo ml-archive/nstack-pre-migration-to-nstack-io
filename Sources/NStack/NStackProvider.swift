@@ -2,14 +2,15 @@ import Vapor
 
 public final class NStackProvider {
 
-    public let config: NStackConfig
+    internal let config: NStack.Config
 
-    public init(config: NStackConfig) {
+    public init(config: NStack.Config) {
         self.config = config
     }
 
     public func register(_ services: inout Services) throws {
         services.register(config)
+        services.register(NStackLogger.self)
         services.register(NStack.self)
     }
 }

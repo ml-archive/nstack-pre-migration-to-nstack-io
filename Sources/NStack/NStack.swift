@@ -3,69 +3,70 @@ import Foundation
 import Vapor
 import HTTP
 
-public final class NStack: Service {
+public final class NStack {
 
-//    public let connectionManager: ConnectionManager
-//    public let config: NStackConfig
-//    var defaultApplication: Application
-//
-//    public let applications: [Application]
-//    public var application: Application
+    public var application: Application
 
-    public init(config: NStackConfig, connectionManager: ConnectionManager) throws {
-        
+    internal let connectionManager: ConnectionManager
+    internal let config: NStack.Config
+    internal let applications: [Application]
+    internal var defaultApplication: Application
+
+    internal init(
+        connectionManager: ConnectionManager,
+        config: NStack.Config
+    ) throws {
+
+        self.connectionManager = connectionManager
+        self.config = config
+        self.applications = config.applicationConfigs.map { appConfig in
+            Application(
+                connectionManager: connectionManager,
+                config: config,
+                applicationConfig: appConfig
+            )
+
+        }
+        guard let app = applications.first else {
+            throw Abort(.internalServerError) // TODO: Add meaningful error
+        }
+
+        self.application = app
+        self.defaultApplication = app
+        self.defaultApplication = try getApplication(name: config.defaultApplicationName)
     }
 
-//    public init(config: NStackConfig, connectionManager: ConnectionManager) throws {
-//        self.config = config
-//        self.connectionManager = connectionManager
-//
-//        // Set applications
-//        var applications: [Application] = []
-//        for applicationConfig in self.config.applications {
-//            applications.append(Application(connectionManager: connectionManager, applicationConfig: applicationConfig, nStackConfig: config))
-//        }
-//
-//        self.applications = applications
-//
-//        // Set first application
-//        guard let app: Application = applications.first else {
-//            throw Abort.serverError
-//        }
-//
-//        self.application = app
-//        self.defaultApplication = app
-//
-//        // Set picked application
-//        self.defaultApplication = try setApplication(name: config.defaultApplication)
-//    }
-//
-//    public func setApplication(name: String) throws -> Application {
-//        for application in applications {
-//            if(application.name == name) {
-//                self.application = application
-//
-//                return self.application
-//            }
-//        }
-//
-//        throw Abort(
-//            .internalServerError,
-//            metadata: nil,
-//            reason: "NStack - Application \(name) was not found"
-//        )
-//    }
-//
-//    public func setApplicationToDefault() -> Application {
-//        self.application = self.defaultApplication
-//
-//        return application
-//    }
+    public func getApplication(name: String) throws -> Application {
+
+        guard let app = applications.first(where: {$0.name == name}) else {
+            throw Abort(.internalServerError) // TODO: Add meaningful error
+        }
+        return app
+    }
+
+    public func resetApplicationToDefault() {
+
+        self.application = self.defaultApplication
+    }
 }
 
 extension NStack: ServiceType {
 
     public static func makeService(for worker: Container) throws -> Self {
-        return .init()
+
+        let config = try worker.make(NStack.Config.self)
+        let logger = try worker.make(NStackLogger.self)
+        let cache = try worker.make(KeyedCache.self)
+
+        let connectionManager = try ConnectionManager(
+            client: FoundationClient.default(on: worker),
+            config: config,
+            cache: cache,
+            logger: logger
+        )
+        return try self.init(
+            connectionManager: connectionManager,
+            config: config
+        )
     }
 }

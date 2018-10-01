@@ -1,40 +1,37 @@
 import Vapor
 import Foundation
-//import Cache
 
 public class TranslationAttempt {
-    
-    public var dates: [String: Error] = [:]
-    
+
+    public var dates: [Date: Error] = [:]
+
     init(error: Error) throws {
         try append(error: error)
     }
-    
+
     public func append(error: Error) throws {
-        let dateString = try Date().toDateTimeString()
-        
-        dates[dateString] = error
+        dates[Date()] = error
     }
-    
+
     public func avoidFetchingAgain() -> Bool {
+
         let datePreRetryPeriod = Date().addingTimeInterval(-3 * 60)
         let datePreNotFoundPeriod =  Date().addingTimeInterval(-5 * 60)
-        
-        for (key, value) in dates {
-            let date = Date.parse(.dateTime, key, Date())
-                
+
+        for (date, error) in dates {
+
             // Any errors within few secs should give a break in trying again
-            if date.isAfter(datePreRetryPeriod) {
+            if date.compare(datePreRetryPeriod) == .orderedDescending {
                 return true
             }
-                
+
             // Not found errors within few min should give a break in trying again
-            if date.isAfter(datePreNotFoundPeriod) && value.localizedDescription == "notFound" {
+            if date.compare(datePreNotFoundPeriod) == .orderedDescending
+                && error.localizedDescription == "notFound" {
+
                 return true
             }
-            
         }
-        
         return false
     }
 }
