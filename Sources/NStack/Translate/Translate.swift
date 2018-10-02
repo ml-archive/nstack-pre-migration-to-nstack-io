@@ -82,12 +82,13 @@ public final class Translate {
     }
     
     public final func getSection(section: String) throws -> Node {
-        let trans: Translation = try self.fetch(
+        application.nStackConfig.log("Requesting translate for platform: \(config.defaultPlatform) - language: \(config.defaultLanguage) - section: \(section)")
+        let translate: Translation = try self.fetch(
             platform: config.defaultPlatform,
             language: config.defaultLanguage
         )
 
-        return trans.getSection(section: section)
+        return translate.getSection(section: section)
     }
 
     private final func fetch(platform: String, language: String) throws -> Translation {
