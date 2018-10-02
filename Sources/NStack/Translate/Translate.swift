@@ -81,6 +81,15 @@ public final class Translate {
         return get(platform: config.defaultPlatform, language: language, section: section, key: key, replace: replace)
     }
     
+    public final func getSection(section: String) throws -> Node {
+        let trans: Translation = try self.fetch(
+            platform: config.defaultPlatform,
+            language: config.defaultLanguage
+        )
+
+        return trans.getSection(section: section)
+    }
+
     private final func fetch(platform: String, language: String) throws -> Translation {
         let cacheKey = Translate.cacheKey(platform: platform, language: language)
         
@@ -104,7 +113,7 @@ public final class Translate {
         
         // Try memory cache
         if let memoryTranslate = freshFromMemory(platform: platform, language: language) {
-            application.nStackConfig.log("Memoery cache used")
+            application.nStackConfig.log("Memory cache used")
             return memoryTranslate
         }
         

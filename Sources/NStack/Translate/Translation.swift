@@ -60,10 +60,24 @@ public struct Translation {
         }
     }
     
+    func getSection(section: String) -> Node {
+        do {
+            let data: Node = try self.json.get("data")
+            return try data.get(section)
+        } catch {
+            application.nStackConfig.log("NStack.Translate.get error:" + error.localizedDescription)
+            return Translation.fallback(section: section)
+        }
+    }
+
     public static func fallback(section: String, key: String) -> String{
         return section + "." + key
     }
-    
+
+    public static func fallback(section: String) -> Node{
+        return Node.init(optional: section)
+    }
+
     func toNode() throws -> Node{
         return Node([
             "language": Node(language),
