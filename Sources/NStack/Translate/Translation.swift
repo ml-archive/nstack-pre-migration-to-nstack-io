@@ -60,7 +60,7 @@ public struct Translation {
         }
     }
     
-    func getSection(section: String) -> Node {
+    func get(section: String) -> Node {
         do {
             let data: Node = try self.json.get("data")
             return try data.get(section)
