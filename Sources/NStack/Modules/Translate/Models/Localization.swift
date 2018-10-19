@@ -43,7 +43,21 @@ internal struct Localization: Codable {
         return translation
     }
 
+    internal func get(on worker: Container, section: Section) -> [Key: Translation] {
+
+        guard let sectionTranslations = translations[section] else {
+
+            try? worker.make(NStackLogger.self).log("No translation found for section '\(section)'")
+            return Localization.fallback(section: section)
+        }
+        return sectionTranslations
+    }
+
     internal static func fallback(section: Section, key: Key) -> Translation {
         return section + "." + key
+    }
+
+    internal static func fallback(section: Section) -> [Key: Translation] {
+        return [Key: Translation]()
     }
 }

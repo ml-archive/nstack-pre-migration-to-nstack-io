@@ -62,6 +62,36 @@ public final class TranslateController {
         }
     }
 
+    public final func get(
+        on worker: Container,
+        platform: Platform? = nil,
+        language: String? = nil,
+        section: String
+    ) -> Future<[String: String]> {
+
+        let platform = platform ?? self.config.defaultPlatform
+        let language = language ?? self.config.defaultLanguage
+
+        try? worker.make(NStackLogger.self).log("Requesting translate for platform: \(platform) - language: \(language) - section: \(section)")
+
+        do {
+            return try fetchLocalization(
+                on: worker,
+                platform: platform,
+                language: language
+            ).map { localization in
+
+                guard let localization = localization else {
+                    return Localization.fallback(section: section)
+                }
+                return localization.get(on: worker, section: section)
+            }
+
+        } catch {
+            return worker.future(Localization.fallback(section: section))
+        }
+    }
+
     private final func fetchLocalization(
         on worker: Container,
         platform: Platform,
