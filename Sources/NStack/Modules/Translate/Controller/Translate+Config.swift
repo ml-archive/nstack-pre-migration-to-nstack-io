@@ -29,7 +29,7 @@ public extension Translate {
             self.defaultLanguage = defaultLanguage
             self.cacheInMinutes = cacheInMinutes
 
-            if placeholderPrefix.count < 1 || placeholderSuffix.count < 1 {
+            if placeholderPrefix.isEmpty || placeholderSuffix.isEmpty {
                 debugPrint("placeholder prefix/suffix must not be empty, applying default ones")
                 self.placeholderPrefix = Translate.Config.default.placeholderPrefix
                 self.placeholderSuffix = Translate.Config.default.placeholderSuffix

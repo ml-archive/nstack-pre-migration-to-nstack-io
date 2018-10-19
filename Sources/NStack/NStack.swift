@@ -1,4 +1,3 @@
-//import Cache
 import Foundation
 import Vapor
 import HTTP
@@ -30,7 +29,10 @@ public final class NStack {
 
         }
         guard let app = applications.first else {
-            throw Abort(.internalServerError) // TODO: Add meaningful error
+            throw Abort(
+                .internalServerError,
+                reason: "[NStack] No application found. You have to provide at least 1 application."
+            )
         }
 
         self.application = app
@@ -41,7 +43,10 @@ public final class NStack {
     public func getApplication(name: String) throws -> Application {
 
         guard let app = applications.first(where: {$0.name == name}) else {
-            throw Abort(.internalServerError) // TODO: Add meaningful error
+            throw Abort(
+                .internalServerError,
+                reason: "[NStack] No defaultApplication with the name '\(name)' found."
+            )
         }
         return app
     }

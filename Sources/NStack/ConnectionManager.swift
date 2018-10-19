@@ -33,18 +33,20 @@ internal final class ConnectionManager {
         return translateResponse.flatMap { response in
 
             guard response.http.status == .ok else {
-                throw Abort(response.http.status)
+                throw Abort(
+                    response.http.status,
+                    reason: "[NStack] Error fetching translations: \(response)"
+                )
             }
 
             return try response.content.decode(Localization.ResponseData.self)
                 .map { responseData in
-
-                return Localization(
-                    responseData: responseData,
-                    platform: platform,
-                    language: language
-                )
-            }
+                    return Localization(
+                        responseData: responseData,
+                        platform: platform,
+                        language: language
+                    )
+                }
         }
     }
 

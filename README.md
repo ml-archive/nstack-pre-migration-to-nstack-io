@@ -71,7 +71,7 @@ If you set `log` to `true` you will receive helpful logs in case anything goes w
 
 ### Adding the Service
 
-Instantiate and register NStackProvider with config created in the previous step.
+Instantiate and register `NStackProvider` with config created in the previous step.
 
 In `configure.swift`:
 ```swift

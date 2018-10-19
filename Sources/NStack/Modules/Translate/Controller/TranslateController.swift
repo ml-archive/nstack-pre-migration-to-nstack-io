@@ -41,21 +41,19 @@ public final class TranslateController {
                 language: language
             ).map { localization in
 
-                if let localization = localization {
-
-                    var value = localization.get(on: worker, section: section, key: key)
-
-                    // Search / Replace placeholders
-                    if let searchReplacePairs = searchReplacePairs {
-                        for(search, replace) in searchReplacePairs {
-                            value = value.replacingOccurrences(of: self.config.placeholderPrefix + search + self.config.placeholderSuffix, with: replace)
-                        }
-                    }
-                    return value
-
-                } else {
+                guard let localization = localization else {
                     return Localization.fallback(section: section, key: key)
                 }
+
+                var value = localization.get(on: worker, section: section, key: key)
+
+                // Search / Replace placeholders
+                if let searchReplacePairs = searchReplacePairs {
+                    for(search, replace) in searchReplacePairs {
+                        value = value.replacingOccurrences(of: self.config.placeholderPrefix + search + self.config.placeholderSuffix, with: replace)
+                    }
+                }
+                return value
             }
 
         } catch {
@@ -124,7 +122,6 @@ public final class TranslateController {
                     language: language
                 ).flatMap { localization in
                     return self.setCache(on: worker, localization: localization)
-                        .map{}
                         .transform(to: localization)
                 }
             } catch {
