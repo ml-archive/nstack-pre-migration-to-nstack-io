@@ -1,12 +1,6 @@
 Packages
 .build
-.idea
 xcuserdata
 *.xcodeproj
-Config/secrets/
+DerivedData/
 .DS_Store
-node_modules/
-bower_components/
-.swift-version
-CMakeLists.txt
-Package.pins
