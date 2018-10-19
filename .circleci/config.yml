@@ -7,7 +7,7 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v1-spm-deps-{{ checksum "Package.resolved" }}
+            - v1-spm-deps-{{ checksum "Package.swift" }}
       - run:
           name: Install dependencies
           command: |
@@ -20,32 +20,37 @@ jobs:
           name: Build and Run Tests
           no_output_timeout: 1800
           command: |
-            swift test -Xswiftc -DNOJSON
+            swift package generate-xcodeproj --enable-code-coverage
+            xcodebuild -scheme NStack-Package -enableCodeCoverage YES test | xcpretty
+      - run:
+          name: Report coverage to Codecov
+          command: |
+            bash <(curl -s https://codecov.io/bash)
       - save_cache:
-          key: v1-spm-deps-{{ checksum "Package.resolved" }}
+          key: v1-spm-deps-{{ checksum "Package.swift" }}
           paths:
             - .build
   Linux:
     docker:
-      - image: nodesvapor/vapor-ci:swift-4.1
+      - image: nodesvapor/vapor-ci:swift-4.2
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v1l-spm-deps-{{ checksum "Package.resolved" }}
+            - v1l-spm-deps-{{ checksum "Package.swift" }}
       - run:
-          name: Copy Resolved Package
-          command: cp Package.resolved res
+          name: Copy Package File
+          command: cp Package.swift res
       - run:
           name: Build and Run Tests
           no_output_timeout: 1800
           command: |
             swift test -Xswiftc -DNOJSON
       - run:
-          name: Restoring Resolved Package
-          command: mv res Package.resolved
+          name: Restoring Package File
+          command: mv res Package.swift
       - save_cache:
-          key: v1l-spm-deps-{{ checksum "Package.resolved" }}
+          key: v1l-spm-deps-{{ checksum "Package.swift" }}
           paths:
             - .build
 workflows:
