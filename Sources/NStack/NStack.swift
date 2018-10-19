@@ -1,58 +1,79 @@
-import Cache
 import Foundation
 import Vapor
+import HTTP
+
+public typealias Translate = TranslateController
 
 public final class NStack {
-    public let connectionManager: ConnectionManager
-    public let config: NStackConfig
-    var defaultApplication: Application
-    
-    public let applications: [Application]
-    public var application: Application
-    
-    public init(config: NStackConfig, connectionManager: ConnectionManager) throws {
-        self.config = config
-        self.connectionManager = connectionManager
 
-        // Set applications
-        var applications: [Application] = []
-        for applicationConfig in self.config.applications {
-            applications.append(Application(connectionManager: connectionManager, applicationConfig: applicationConfig, nStackConfig: config))
+    public var application: Application
+
+    internal let connectionManager: ConnectionManager
+    internal let config: NStack.Config
+    internal let applications: [Application]
+    internal var defaultApplication: Application
+
+    internal init(
+        connectionManager: ConnectionManager,
+        config: NStack.Config
+    ) throws {
+
+        self.connectionManager = connectionManager
+        self.config = config
+        self.applications = config.applicationConfigs.map { appConfig in
+            Application(
+                connectionManager: connectionManager,
+                config: config,
+                applicationConfig: appConfig
+            )
+
         }
-        
-        self.applications = applications
-        
-        // Set first application
-        guard let app: Application = applications.first else {
-            throw Abort.serverError
+        guard let app = applications.first else {
+            throw Abort(
+                .internalServerError,
+                reason: "[NStack] No application found. You have to provide at least 1 application."
+            )
         }
-        
+
         self.application = app
         self.defaultApplication = app
-        
-        // Set picked application
-        self.defaultApplication = try setApplication(name: config.defaultApplication)
+        self.defaultApplication = try getApplication(name: config.defaultApplicationName)
     }
-    
-    public func setApplication(name: String) throws -> Application {
-        for application in applications {
-            if(application.name == name) {
-                self.application = application
-                
-                return self.application
-            }
+
+    public func getApplication(name: String) throws -> Application {
+
+        guard let app = applications.first(where: {$0.name == name}) else {
+            throw Abort(
+                .internalServerError,
+                reason: "[NStack] No defaultApplication with the name '\(name)' found."
+            )
         }
-        
-        throw Abort(
-            .internalServerError,
-            metadata: nil,
-            reason: "NStack - Application \(name) was not found"
-        )
+        return app
     }
-    
-    public func setApplicationToDefault() -> Application {
+
+    public func resetApplicationToDefault() {
+
         self.application = self.defaultApplication
-        
-        return application
+    }
+}
+
+extension NStack: ServiceType {
+
+    public static func makeService(for worker: Container) throws -> Self {
+
+        let config = try worker.make(NStack.Config.self)
+        let cache = try worker.make(KeyedCache.self)
+        let client = try worker.make(Client.self)
+
+        let connectionManager = try ConnectionManager(
+            client: client,
+            config: config,
+            cache: cache
+        )
+
+        return try self.init(
+            connectionManager: connectionManager,
+            config: config
+        )
     }
 }
