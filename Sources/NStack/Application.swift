@@ -1,31 +1,33 @@
 import Vapor
-import Cache
-public struct Application{
-    // Basic
-    var cache: CacheProtocol? {
-        return connectionManager.cache
-    }
-    let connectionManager: ConnectionManager
-    let applicationConfig: ApplicationConfig
-    let nStackConfig: NStackConfig
+
+public struct Application {
+
+    internal var connectionManager: ConnectionManager
+    internal let config: NStack.Config
+    internal let applicationConfig: Application.Config
+    internal let translateConfig: Translate.Config?
+
+    internal var name: String { get { return applicationConfig.name }}
+    internal var applicationId: String { get { return applicationConfig.applicationId }}
+    internal var restKey: String { get { return applicationConfig.restKey }}
+    internal var masterKey: String { get { return applicationConfig.masterKey }}
+
+    internal var cache: KeyedCache { get { return connectionManager.cache }}
     
-    // Features
-    public lazy var translate: Translate = Translate(application: self)
-    
-    // Keys
-    let name: String
-    let applicationId: String
-    let restKey: String
-    let masterKey: String
-    
-    init(connectionManager: ConnectionManager, applicationConfig: ApplicationConfig, nStackConfig: NStackConfig){
+    public lazy var translate: TranslateController = TranslateController(
+        application: self,
+        config: self.translateConfig ?? Translate.Config.default
+    )
+
+    internal init(
+        connectionManager: ConnectionManager,
+        config: NStack.Config,
+        applicationConfig: Application.Config,
+        translateConfig: Translate.Config? = nil
+    ) {
         self.connectionManager = connectionManager
+        self.config = config
         self.applicationConfig = applicationConfig
-        self.nStackConfig = nStackConfig
-        
-        self.name = applicationConfig.name
-        self.applicationId = applicationConfig.applicationId
-        self.restKey = applicationConfig.restKey
-        self.masterKey = applicationConfig.masterKey
+        self.translateConfig = translateConfig ?? Translate.Config.default
     }
 }

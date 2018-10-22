@@ -1,28 +1,28 @@
 import Vapor
+import Sugar
 
-public final class NStackProvider: Vapor.Provider {
-    public static var repositoryName: String = "NStack"
+public final class NStackProvider {
 
-    private let nStackConfig: NStackConfig
+    internal let config: NStack.Config
 
-    public func boot(_ drop: Droplet) throws {
-        let connectionManager = try ConnectionManager(
-            cache: drop.cache,
-            clientFactory: drop.client,
-            nStackConfig: nStackConfig
-        )
+    public init(config: NStack.Config) {
+        self.config = config
+    }
+}
 
-        drop.nstack = try NStack(
-            config: nStackConfig,
-            connectionManager: connectionManager
-        )
+extension NStackProvider: Provider {
+
+    public func register(_ services: inout Services) throws {
+        try services.register(MutableLeafTagConfigProvider())
+        services.register(config)
+        services.register(NStackLogger.self)
+        services.register(NStack.self)
     }
 
-    public func boot(_ config: Config) throws {}
-
-    public init(config: Config) throws {
-        nStackConfig = try NStackConfig(config: config)
+    public func didBoot(_ container: Container) throws -> EventLoopFuture<Void> {
+        let nstack = try container.make(NStack.self)
+        let tags = try container.make(MutableLeafTagConfig.self)
+        tags.use(TranslateTag(nstack: nstack), as: "nstack:translate")
+        return .done(on: container)
     }
-    
-    public func beforeRun(_: Droplet) {}
 }
