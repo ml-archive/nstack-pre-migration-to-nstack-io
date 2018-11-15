@@ -81,11 +81,14 @@ public final class Translate {
         return get(platform: config.defaultPlatform, language: language, section: section, key: key, replace: replace)
     }
     
-    public final func get(section: String) throws -> Node {
-        application.nStackConfig.log("Requesting translate for platform: \(config.defaultPlatform) - language: \(config.defaultLanguage) - section: \(section)")
+    public final func get(section: String, language: String? = nil) throws -> Node {
+        let locale: String = language ?? config.defaultLanguage
+
+        application.nStackConfig.log("Requesting translate for platform: \(config.defaultPlatform) - language: \(locale) - section: \(section)")
+
         let translate: Translation = try self.fetch(
             platform: config.defaultPlatform,
-            language: config.defaultLanguage
+            language: locale
         )
 
         return translate.get(section: section)
