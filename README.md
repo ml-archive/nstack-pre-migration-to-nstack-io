@@ -1,4 +1,4 @@
-# NStack
+# NStack 🛠
 [![Swift Version](https://img.shields.io/badge/Swift-4.2-brightgreen.svg)](http://swift.org)
 [![Vapor Version](https://img.shields.io/badge/Vapor-3-30B6FC.svg)](http://vapor.codes)
 [![CircleCI](https://circleci.com/gh/nodes-vapor/nstack/tree/master.svg?style=svg)](https://circleci.com/gh/nodes-vapor/nstack/tree/master)
