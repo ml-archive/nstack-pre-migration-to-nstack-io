@@ -14,6 +14,7 @@ public final class NStackProvider {
 extension NStackProvider: Provider {
 
     public func register(_ services: inout Services) throws {
+        try services.register(LeafProvider())
         services.register(config)
         services.register(NStackLogger.self)
         services.register(NStack.self)
