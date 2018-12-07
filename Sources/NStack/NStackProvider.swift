@@ -1,5 +1,6 @@
 import Vapor
 import Sugar
+import Leaf
 
 public final class NStackProvider {
 
@@ -13,7 +14,6 @@ public final class NStackProvider {
 extension NStackProvider: Provider {
 
     public func register(_ services: inout Services) throws {
-        try services.register(MutableLeafTagConfigProvider())
         services.register(config)
         services.register(NStackLogger.self)
         services.register(NStack.self)
@@ -21,7 +21,7 @@ extension NStackProvider: Provider {
 
     public func didBoot(_ container: Container) throws -> EventLoopFuture<Void> {
         let nstack = try container.make(NStack.self)
-        let tags = try container.make(MutableLeafTagConfig.self)
+        var tags = try container.make(LeafTagConfig.self)
         tags.use(TranslateTag(nstack: nstack), as: "nstack:translate")
         return .done(on: container)
     }
