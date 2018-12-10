@@ -27,7 +27,6 @@ extension NStackProvider: Provider {
 public extension LeafTagConfig {
     public mutating func useNStackLeafTags(_ container: Container) throws {
         let nstack = try container.make(NStack.self)
-        var tags = try container.make(LeafTagConfig.self)
-        tags.use(TranslateTag(nstack: nstack), as: "nstack:translate")
+        use(TranslateTag(nstack: nstack), as: "nstack:translate")
     }
 }
