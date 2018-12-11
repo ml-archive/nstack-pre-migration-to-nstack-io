@@ -1,5 +1,5 @@
 # NStack 🛠
-[![Swift Version](https://img.shields.io/badge/Swift-4.2-brightgreen.svg)](http://swift.org)
+[![Swift Version](https://img.shields.io/badge/Swift-4.1-brightgreen.svg)](http://swift.org)
 [![Vapor Version](https://img.shields.io/badge/Vapor-3-30B6FC.svg)](http://vapor.codes)
 [![CircleCI](https://circleci.com/gh/nodes-vapor/nstack/tree/master.svg?style=svg)](https://circleci.com/gh/nodes-vapor/nstack/tree/master)
 [![codebeat badge](https://codebeat.co/badges/f324d1a5-28e1-433e-b71c-a2d2d33bb3ec)](https://codebeat.co/projects/github-com-nodes-vapor-nstack-master)
