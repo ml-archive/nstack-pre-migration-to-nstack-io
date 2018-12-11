@@ -1,4 +1,4 @@
-// swift-tools-version:4.0
+// swift-tools-version:4.1
 import PackageDescription
 
 let package = Package(
@@ -8,11 +8,10 @@ let package = Package(
         ],
     dependencies: [
         .package(url: "https://github.com/vapor/vapor.git", from: "3.0.0"),
-        // required for MutableLeafTagConfig
-        .package(url: "https://github.com/nodes-vapor/sugar.git", from: "3.0.0-beta")
+        .package(url: "https://github.com/vapor/leaf.git", from: "3.0.1")
         ],
     targets: [
-        .target(name: "NStack", dependencies: ["Vapor", "Sugar"]),
+        .target(name: "NStack", dependencies: ["Vapor", "Leaf"]),
         .testTarget(name: "NStackTests", dependencies: ["NStack"]),
         ]
 )

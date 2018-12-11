@@ -16,9 +16,11 @@ public final class TranslateTag: TagRenderer {
 
     public func render(tag: TagContext) throws -> Future<TemplateData> {
 
+        try tag.requireParameterCount(2)
+
         guard
-            let section = tag.parameters[safe: 0]?.string,
-            let key = tag.parameters[safe: 1]?.string
+            let section = tag.parameters[0].string,
+            let key = tag.parameters[1].string
         else {
             throw tag.error(reason: "Expected at least section + key name parameters.")
         }
@@ -27,8 +29,8 @@ public final class TranslateTag: TagRenderer {
         for index in stride(from: 2, to: tag.parameters.count, by: 2) {
 
             if
-                let search = tag.parameters[safe: index]?.string,
-                let replace = tag.parameters[safe: index+1]?.string {
+                let search = tag.parameters[index].string,
+                let replace = tag.parameters[index+1].string {
                 searchReplacePairs[search] = replace
 
             } else {
