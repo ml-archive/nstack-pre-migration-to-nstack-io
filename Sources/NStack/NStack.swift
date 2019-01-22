@@ -15,7 +15,8 @@ public final class NStack {
 
     internal init(
         connectionManager: ConnectionManager,
-        config: NStack.Config
+        config: NStack.Config,
+        translateConfig: Translate.Config? = nil
     ) throws {
 
         self.connectionManager = connectionManager
@@ -24,9 +25,9 @@ public final class NStack {
             Application(
                 connectionManager: connectionManager,
                 config: config,
-                applicationConfig: appConfig
+                applicationConfig: appConfig,
+                translateConfig: translateConfig
             )
-
         }
         guard let app = applications.first else {
             throw Abort(
@@ -73,7 +74,8 @@ extension NStack: ServiceType {
 
         return try self.init(
             connectionManager: connectionManager,
-            config: config
+            config: config,
+            translateConfig: config.defaultTranslateConfig
         )
     }
 }
