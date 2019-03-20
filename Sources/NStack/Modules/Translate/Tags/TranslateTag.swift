@@ -16,9 +16,8 @@ public final class TranslateTag: TagRenderer {
 
     public func render(tag: TagContext) throws -> Future<TemplateData> {
 
-        try tag.requireParameterCount(2)
-
         guard
+            tag.parameters.count >= 2,
             let section = tag.parameters[0].string,
             let key = tag.parameters[1].string
         else {
