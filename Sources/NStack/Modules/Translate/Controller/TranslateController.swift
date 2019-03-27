@@ -92,7 +92,7 @@ public final class TranslateController {
         }
     }
 
-    public final func preloadLocalization(
+    internal final func preloadLocalization(
         on worker: Container,
         platform: Platform? = nil,
         language: String? = nil
