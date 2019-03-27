@@ -12,7 +12,7 @@ public final class NStack {
     internal let config: NStack.Config
     internal let applications: [Application]
     internal var defaultApplication: Application
-
+    
     internal init(
         connectionManager: ConnectionManager,
         config: NStack.Config,
@@ -40,6 +40,24 @@ public final class NStack {
         self.defaultApplication = app
         self.defaultApplication = try getApplication(name: config.defaultApplicationName)
     }
+    
+    internal convenience init(on container: Container, cache: KeyedCache? = nil) throws {
+        
+        let config = try container.make(NStack.Config.self)
+        let client = try container.make(Client.self)
+        
+        let connectionManager = try ConnectionManager(
+            client: client,
+            config: config,
+            cache: cache ?? container.make(KeyedCache.self)
+        )
+        
+        try self.init(
+            connectionManager: connectionManager,
+            config: config,
+            translateConfig: config.defaultTranslateConfig
+        )
+    }
 
     public func getApplication(name: String) throws -> Application {
 
@@ -61,21 +79,7 @@ public final class NStack {
 extension NStack: ServiceType {
 
     public static func makeService(for worker: Container) throws -> Self {
-
-        let config = try worker.make(NStack.Config.self)
-        let cache = try worker.make(KeyedCache.self)
-        let client = try worker.make(Client.self)
-
-        let connectionManager = try ConnectionManager(
-            client: client,
-            config: config,
-            cache: cache
-        )
-
-        return try self.init(
-            connectionManager: connectionManager,
-            config: config,
-            translateConfig: config.defaultTranslateConfig
-        )
+        
+        return try self.init(on: worker)
     }
 }
