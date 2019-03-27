@@ -92,6 +92,18 @@ public final class TranslateController {
         }
     }
 
+    internal final func preloadLocalization(
+        on worker: Container,
+        platform: Platform? = nil,
+        language: String? = nil
+    ) throws -> Future<Void> {
+        
+        let platform = platform ?? self.config.defaultPlatform
+        let language = language ?? self.config.defaultLanguage
+        
+        return try fetchLocalization(on: worker, platform: platform, language: language).transform(to: ())
+    }
+    
     private final func fetchLocalization(
         on worker: Container,
         platform: Platform,

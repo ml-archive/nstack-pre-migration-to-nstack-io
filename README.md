@@ -23,7 +23,7 @@ Add `NStack` to the Package dependencies:
 ```swift
 dependencies: [
     // ...,
-    .package(url: "https://github.com/nodes-vapor/nstack.git", .upToNextMinor(from: "3.0.0"))
+    .package(url: "https://github.com/nodes-vapor/nstack.git", .upToNextMajor(from: "3.0.0-beta"))
 ]
 ```
 
@@ -72,10 +72,17 @@ If you set `log` to `true` you will receive helpful logs in case anything goes w
 ### Adding the Service
 
 Instantiate and register `NStackProvider` with config created in the previous step.
+If you plan on using the leaf tag (see below), make sure to use a synchronous cache, such as `MemoryKeyedCache` (and not `RedisCache`); otherwise it might break your leaf templates, see https://github.com/vapor/leaf/issues/134
 
 In `configure.swift`:
 ```swift
-try services.register(NStackProvider(config: nstackConfig))
+// MARK: NStack
+try services.register(
+    NStackProvider(
+        config: nstackConfig,
+        cacheFactory: { container in try container.make(MemoryKeyedCache.self) }
+    )
+)
 ```
 
 ## Usage
@@ -161,6 +168,14 @@ NStack comes with a built-in Leaf tag. The tag yields a translated string or the
 
 // Get translation for camelCasedSection.camelCasedKey and replace searchString1 with replaceString1 etc
 #nstack:translate("camelCasedSection", "camelCasedKey", "searchString1", "replaceString1", "searchString2", "replaceString2", ...)
+```
+
+*IMPORTANT:* Due to a bug in leaf you have to make sure that the translations are already loaded and available synchronously when rendering the view. This can be achieved by using the `NStackPreloadMiddleware` on the routes for your views:
+
+
+```swift
+let nstackPreloadMiddleware = try container.make(NStackPreloadMiddleware.self)
+let unprotectedBackend = router.grouped(nstackPreloadMiddleware)
 ```
 
 Please note that the leaf tag always uses the **current application** with the **default translate config** that you have provided.
