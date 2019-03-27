@@ -8,7 +8,7 @@ public final class NStackPreloadMiddleware: Middleware {
     ) throws -> Future<Response> {
         
         guard let nstack = try? request.make(NStack.self) else {
-            try? request.make(NStackLogger.self).log("NStack has not been registered.")
+            print("NStack has not been registered.")
             return try next.respond(to: request)
         }
         

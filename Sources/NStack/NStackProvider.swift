@@ -1,15 +1,17 @@
 import Vapor
 import Leaf
 
-public final class NStackProvider<C: KeyedCache> {
+public final class NStackProvider {
 
     internal let config: NStack.Config
-    internal var cache: C? = nil
+    internal let cacheFactory: ((Container) throws -> KeyedCache)
     
     public init(
-        config: NStack.Config
+        config: NStack.Config,
+        cacheFactory: @escaping ((Container) throws -> KeyedCache) = { container in try container.make() }
     ) {
         self.config = config
+        self.cacheFactory = cacheFactory
     }
 }
 
@@ -23,15 +25,13 @@ extension NStackProvider: Provider {
             
             return try NStack(
                 on: container,
-                cache: self.cache
+                cacheFactory: self.cacheFactory
             )
         }
         services.register(NStackPreloadMiddleware.self)
     }
 
     public func didBoot(_ container: Container) throws -> EventLoopFuture<Void> {
-        
-        self.cache = try container.make(C.self)
         return .done(on: container)
     }
 }

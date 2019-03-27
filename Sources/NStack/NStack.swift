@@ -41,7 +41,10 @@ public final class NStack {
         self.defaultApplication = try getApplication(name: config.defaultApplicationName)
     }
     
-    internal convenience init(on container: Container, cache: KeyedCache? = nil) throws {
+    internal convenience init(
+        on container: Container,
+        cacheFactory: @escaping ((Container) throws -> KeyedCache) = { container in try container.make() }
+    ) throws {
         
         let config = try container.make(NStack.Config.self)
         let client = try container.make(Client.self)
@@ -49,7 +52,7 @@ public final class NStack {
         let connectionManager = try ConnectionManager(
             client: client,
             config: config,
-            cache: cache ?? container.make(KeyedCache.self)
+            cache: cacheFactory(container)
         )
         
         try self.init(
@@ -79,7 +82,6 @@ public final class NStack {
 extension NStack: ServiceType {
 
     public static func makeService(for worker: Container) throws -> Self {
-        
         return try self.init(on: worker)
     }
 }
