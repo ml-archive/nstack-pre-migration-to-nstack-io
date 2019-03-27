@@ -23,7 +23,7 @@ Add `NStack` to the Package dependencies:
 ```swift
 dependencies: [
     // ...,
-    .package(url: "https://github.com/nodes-vapor/nstack.git", .upToNextMinor(from: "3.0.0-beta"))
+    .package(url: "https://github.com/nodes-vapor/nstack.git", .upToNextMajor(from: "3.0.0-beta"))
 ]
 ```
 
@@ -76,7 +76,13 @@ If you plan on using the leaf tag (see below), make sure to use a synchronous ca
 
 In `configure.swift`:
 ```swift
-try services.register(NStackProvider<MemoryKeyedCache>(config: nstackConfig))
+// MARK: NStack
+try services.register(
+    NStackProvider(
+        config: nstackConfig,
+        cacheFactory: { container in try container.make(MemoryKeyedCache.self) }
+    )
+)
 ```
 
 ## Usage
