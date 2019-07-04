@@ -11,6 +11,7 @@ public struct Application{
     
     // Features
     public lazy var translate: Translate = Translate(application: self)
+    public lazy var content: Content = Content(application: self)
     
     // Keys
     let name: String

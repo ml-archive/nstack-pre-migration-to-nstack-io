@@ -1,4 +1,7 @@
 import Cache
+import FormData
+import Multipart
+import Foundation
 import HTTP
 import TLS
 import Vapor
@@ -54,6 +57,68 @@ public final class ConnectionManager {
         }
         
         return Translation(translateConfig: translateConfig, application: application, json: json, platform: platform, language: language)
+    }
+
+    func storeFile(
+        application: Application,
+        data: Data,
+        name: String,
+        privacy: String,
+        tags: String?,
+        expiresAt: Date?
+    ) throws -> File {
+        var headers = self.authHeaders(application: application)
+        headers[.contentType] = "application/x-www-form-urlencoded"
+        let url = ConnectionManager.baseUrl + "content/files"
+
+        let nameField = FormData.Field(
+            name: "name", filename: nil, part: Part(headers: [:], body: name.makeBytes())
+        )
+        let privacyField = FormData.Field(
+            name: "privacy", filename: nil, part: Part(headers: [:], body: privacy.makeBytes())
+        )
+        let fileField = FormData.Field(
+            name: "file", filename: "export.csv", part: Part(headers: [:], body: data.makeBytes())
+        )
+
+        var formData: [String: FormData.Field] = [
+            "name": nameField,
+            "privacy": privacyField,
+            "file": fileField
+        ]
+
+        if let tags = tags {
+            let tagsField = FormData.Field(
+                name: "tags", filename: nil, part: Part(headers: [:], body: tags.makeBytes())
+            )
+            formData["tags"] = tagsField
+        }
+
+        if let expiresAt = expiresAt, let dateString = try? expiresAt.toDateTimeString().makeBytes() {
+            let expiresAtField = FormData.Field(
+                name: "gone_at",
+                filename: nil,
+                part: Part(headers: [:], body: dateString)
+            )
+            formData["gone_at"] = expiresAtField
+        }
+
+        let request = Request(method: .post, uri: url, headers: headers, body: Body())
+        request.formData = formData
+
+        let storeFileResponse = try client.respond(to: request)
+
+        guard
+            storeFileResponse.status == .ok
+        else {
+            throw Abort(
+                .internalServerError,
+                metadata: nil,
+                reason: "NStack error - Response was not OK"
+            )
+        }
+
+        return try File(storeFileResponse.json)
     }
     
     func authHeaders(application: Application) -> [HeaderKey : String] {
