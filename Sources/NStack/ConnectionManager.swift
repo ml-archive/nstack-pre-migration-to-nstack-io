@@ -94,7 +94,7 @@ public final class ConnectionManager {
             formData["tags"] = tagsField
         }
 
-        if let expiresAt = expiresAt, let dateString = try? expiresAt.toDateTimeString().makeBytes() {
+        if let expiresAt = expiresAt, let dateString = try? expiresAt.toDateTimeString(timezone: "UTC").makeBytes() {
             let expiresAtField = FormData.Field(
                 name: "gone_at",
                 filename: nil,
