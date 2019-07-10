@@ -19,6 +19,8 @@ public struct Application {
         config: self.translateConfig ?? Translate.Config.default
     )
 
+    public private(set) lazy var version = VersionController(application: self)
+
     internal init(
         connectionManager: ConnectionManager,
         config: NStack.Config,
