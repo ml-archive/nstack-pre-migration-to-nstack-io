@@ -50,11 +50,39 @@ internal final class ConnectionManager {
         }
     }
 
+    func getUpdate(
+        application: Application,
+        for platform: VersionController.Platforms,
+        currentVersion: String = "0.0",
+        lastVersion: String? = nil
+    ) -> Future<UpdateResponse> {
+        let headers = self.authHeaders(application: application)
+        let url = config.baseURL + "notify/updates"
+        let updateResponse = client.get(url, headers: headers) { get in
+            try get.query.encode([
+                "platform": platform.rawValue,
+                "current_version": "0.0",
+                "last_version": lastVersion
+            ])
+        }
+
+        return updateResponse.flatMap { response in
+            guard response.http.status == .ok else {
+                throw Abort(
+                    response.http.status,
+                    reason: "[NStack] Error fetching version updates: \(response)"
+                )
+            }
+
+            return try response.content.decode(UpdateResponse.self)
+        }
+    }
+
     private func authHeaders(application: Application) -> HTTPHeaders {
         return [
             "Accept":"application/json",
             "X-Application-Id": application.applicationId,
             "X-Rest-Api-Key": application.restKey
-        ];
+        ]
     }
 }
