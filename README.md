@@ -53,8 +53,7 @@ let nstackConfig = NStack.Config(
         Application.Config(
             name: "my app name",
             applicationId: "NEVER_PUT_API_IDS_IN_SOURCE_CODE",
-            restKey: "NEVER_PUT_API_KEYS_IN_SOURCE_CODE",
-            masterKey: "DEFINITELY_NEVER_EXPOSTE_THE_MASTER_KEY_IN_SOURCE_CODE"
+            restKey: "NEVER_PUT_API_KEYS_IN_SOURCE_CODE"
         )
     ],
     defaultTranslateConfig: TranslateController.Config(
