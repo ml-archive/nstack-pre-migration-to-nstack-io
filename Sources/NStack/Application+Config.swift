@@ -1,6 +1,6 @@
 public extension Application {
 
-    public struct Config: Codable {
+    struct Config: Codable {
 
         public let name: String
         public let applicationId: String
