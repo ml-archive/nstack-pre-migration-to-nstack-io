@@ -10,7 +10,6 @@ public struct Application {
     internal var name: String { get { return applicationConfig.name }}
     internal var applicationId: String { get { return applicationConfig.applicationId }}
     internal var restKey: String { get { return applicationConfig.restKey }}
-    internal var masterKey: String { get { return applicationConfig.masterKey }}
 
     internal var cache: KeyedCache { get { return connectionManager.cache }}
     
