@@ -179,6 +179,13 @@ let unprotectedBackend = router.grouped(nstackPreloadMiddleware)
 
 Please note that the leaf tag always uses the **current application** with the **default translate config** that you have provided.
 
+### Version Updates 
+NStack has the ability to retrieve the latest version for a certain platform. You can achieve that with the `getLatestVersion(for platform: Platforms) -> Future<UpdateVersion?>` method, e.g.:
+```swift
+let nstack = try NStack.makeService(for: req)
+nstack.application.version.getLatestVersion(for: .android)
+```
+
 ## 🏆 Credits
 
 This package is developed and maintained by the Vapor team at [Nodes](https://www.nodesagency.com).
