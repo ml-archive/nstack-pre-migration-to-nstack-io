@@ -3,8 +3,8 @@ import Leaf
 
 public final class NStackProvider {
 
-    internal let config: NStack.Config
-    internal let cacheFactory: ((Container) throws -> KeyedCache)
+    let config: NStack.Config
+    let cacheFactory: ((Container) throws -> KeyedCache)
     
     public init(
         config: NStack.Config,

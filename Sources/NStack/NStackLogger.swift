@@ -1,14 +1,14 @@
 import Vapor
 
-internal final class NStackLogger {
+final class NStackLogger {
 
-    internal let enabled: Bool
+    let enabled: Bool
 
-    internal init(enabled: Bool) {
+    init(enabled: Bool) {
         self.enabled = enabled
     }
 
-    internal func log(_ message: String) {
+    func log(_ message: String) {
         if enabled {
             debugPrint("[NStack] \(message)")
         }

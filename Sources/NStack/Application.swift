@@ -2,16 +2,16 @@ import Vapor
 
 public struct Application {
 
-    internal var connectionManager: ConnectionManager
-    internal let config: NStack.Config
-    internal let applicationConfig: Application.Config
-    internal let translateConfig: Translate.Config?
+    var connectionManager: ConnectionManager
+    let config: NStack.Config
+    let applicationConfig: Application.Config
+    let translateConfig: Translate.Config?
 
-    internal var name: String { get { return applicationConfig.name }}
-    internal var applicationId: String { get { return applicationConfig.applicationId }}
-    internal var restKey: String { get { return applicationConfig.restKey }}
+    var name: String { return applicationConfig.name }
+    var applicationId: String { return applicationConfig.applicationId }
+    var restKey: String { return applicationConfig.restKey }
 
-    internal var cache: KeyedCache { get { return connectionManager.cache }}
+    var cache: KeyedCache { return connectionManager.cache }
     
     public lazy var translate: TranslateController = TranslateController(
         application: self,
@@ -20,7 +20,7 @@ public struct Application {
 
     public private(set) lazy var version = VersionController(application: self)
 
-    internal init(
+    init(
         connectionManager: ConnectionManager,
         config: NStack.Config,
         applicationConfig: Application.Config,

@@ -1,19 +1,19 @@
 import Vapor
 import Foundation
 
-internal class TranslationAttempt {
+final class TranslationAttempt {
 
     private var dates: [Date: Error] = [:]
 
-    internal init(error: Error) throws {
+    init(error: Error) throws {
         try append(error: error)
     }
 
-    internal func append(error: Error) throws {
+    func append(error: Error) throws {
         dates[Date()] = error
     }
 
-    internal func avoidFetchingAgain() -> Bool {
+    func avoidFetchingAgain() -> Bool {
 
         let datePreRetryPeriod = Date().addingTimeInterval(-3 * 60)
         let datePreNotFoundPeriod =  Date().addingTimeInterval(-5 * 60)

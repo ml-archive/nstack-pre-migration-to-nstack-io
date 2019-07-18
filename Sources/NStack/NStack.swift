@@ -8,12 +8,12 @@ public final class NStack {
 
     public var application: Application
 
-    internal let connectionManager: ConnectionManager
-    internal let config: NStack.Config
-    internal let applications: [Application]
-    internal var defaultApplication: Application
+    let connectionManager: ConnectionManager
+    let config: NStack.Config
+    let applications: [Application]
+    var defaultApplication: Application
     
-    internal init(
+    init(
         connectionManager: ConnectionManager,
         config: NStack.Config,
         translateConfig: Translate.Config? = nil
@@ -41,7 +41,7 @@ public final class NStack {
         self.defaultApplication = try getApplication(name: config.defaultApplicationName)
     }
     
-    internal convenience init(
+    convenience init(
         on container: Container,
         cacheFactory: @escaping ((Container) throws -> KeyedCache) = { container in try container.make() }
     ) throws {
