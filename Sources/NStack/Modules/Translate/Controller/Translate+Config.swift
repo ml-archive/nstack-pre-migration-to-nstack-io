@@ -2,7 +2,7 @@ import Vapor
 
 public extension Translate {
 
-    public struct Config: Codable {
+    struct Config: Codable {
 
         public let defaultPlatform: Translate.Platform
         public let defaultLanguage: String

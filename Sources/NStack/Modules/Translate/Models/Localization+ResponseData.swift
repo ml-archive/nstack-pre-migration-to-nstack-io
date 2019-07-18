@@ -1,16 +1,16 @@
 extension Localization {
 
-    internal struct ResponseData: Codable {
+    struct ResponseData: Codable {
 
-        internal let translations: LocalizationFormat
-        internal let meta: Meta
+        let translations: LocalizationFormat
+        let meta: Meta
 
-        internal struct Meta: Codable {
+        struct Meta: Codable {
 
-            internal let language: Language
-            internal let acceptLanguage: String
+            let language: Language
+            let acceptLanguage: String
 
-            internal struct Language: Codable {
+            struct Language: Codable {
 
                 let id: Int
                 let name: String

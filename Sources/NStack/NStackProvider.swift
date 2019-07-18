@@ -3,8 +3,8 @@ import Leaf
 
 public final class NStackProvider {
 
-    internal let config: NStack.Config
-    internal let cacheFactory: ((Container) throws -> KeyedCache)
+    let config: NStack.Config
+    let cacheFactory: ((Container) throws -> KeyedCache)
     
     public init(
         config: NStack.Config,
@@ -37,7 +37,7 @@ extension NStackProvider: Provider {
 }
 
 public extension LeafTagConfig {
-    public mutating func useNStackLeafTags(_ container: Container) throws {
+    mutating func useNStackLeafTags(_ container: Container) throws {
         let nstack = try container.make(NStack.self)
         use(TranslateTag(nstack: nstack), as: "nstack:translate")
     }

@@ -8,13 +8,13 @@ public final class TranslateController {
     var localizations: [String: Localization] = [:]
     var attempts: [String: TranslationAttempt] = [:]
 
-    internal var cache: KeyedCache { get { return self.application.cache }}
+    var cache: KeyedCache { return self.application.cache }
 
     public enum Platform: String, Codable {
         case backend, api, web, mobile
     }
 
-    internal init(application: Application, config: Translate.Config) {
+    init(application: Application, config: Translate.Config) {
         self.application = application
         self.config = config
     }
@@ -92,7 +92,7 @@ public final class TranslateController {
         }
     }
 
-    internal final func preloadLocalization(
+    final func preloadLocalization(
         on worker: Container,
         platform: Platform? = nil,
         language: String? = nil

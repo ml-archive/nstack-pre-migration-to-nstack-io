@@ -2,7 +2,7 @@ import Vapor
 
 public extension NStack {
 
-    public struct Config: Service {
+    struct Config: Service {
 
         public let applicationConfigs: [Application.Config]
         public let defaultApplicationName: String

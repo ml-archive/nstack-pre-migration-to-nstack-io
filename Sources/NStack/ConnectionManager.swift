@@ -1,13 +1,13 @@
 import HTTP
 import Vapor
 
-internal final class ConnectionManager {
+final class ConnectionManager {
 
-    internal let client: Client
-    internal let config: NStack.Config
-    internal let cache: KeyedCache
+    let client: Client
+    let config: NStack.Config
+    let cache: KeyedCache
 
-    internal init(
+    init(
         client: Client,
         config: NStack.Config,
         cache: KeyedCache
@@ -17,7 +17,7 @@ internal final class ConnectionManager {
         self.cache = cache
     }
     
-    internal func getTranslation(
+    func getTranslation(
         application: Application,
         platform: Translate.Platform,
         language: String

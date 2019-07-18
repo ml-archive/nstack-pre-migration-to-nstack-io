@@ -23,7 +23,7 @@ Add `NStack` to the Package dependencies:
 ```swift
 dependencies: [
     // ...,
-    .package(url: "https://github.com/nodes-vapor/nstack.git", .upToNextMajor(from: "3.0.0-beta"))
+    .package(url: "https://github.com/nodes-vapor/nstack.git", .from(from: "3.0.0-beta"))
 ]
 ```
 
@@ -50,11 +50,10 @@ Create `NStack.Config` to configure `NStack`, your `Applications` as well as the
 ```swift
 let nstackConfig = NStack.Config(
     applicationConfigs: [
-        Application.Config.init(
+        Application.Config(
             name: "my app name",
             applicationId: "NEVER_PUT_API_IDS_IN_SOURCE_CODE",
-            restKey: "NEVER_PUT_API_KEYS_IN_SOURCE_CODE",
-            masterKey: "DEFINITELY_NEVER_EXPOSTE_THE_MASTER_KEY_IN_SOURCE_CODE"
+            restKey: "NEVER_PUT_API_KEYS_IN_SOURCE_CODE"
         )
     ],
     defaultTranslateConfig: TranslateController.Config(
