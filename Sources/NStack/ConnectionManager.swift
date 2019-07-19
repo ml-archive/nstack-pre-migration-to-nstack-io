@@ -23,7 +23,7 @@ final class ConnectionManager {
         language: String
     ) throws -> Future<Localization> {
 
-        var headers = self.authHeaders(application: application)
+        var headers = authHeaders(application: application)
         headers.add(name: "Accept-Language", value: language)
 
         let url = config.baseURL + "translate/" + platform.rawValue + "/keys"
@@ -31,17 +31,11 @@ final class ConnectionManager {
         let translateResponse = client.get(url, headers: headers)
 
         return translateResponse.flatMap { response in
-
-            guard response.http.status == .ok else {
-                throw Abort(
-                    response.http.status,
-                    reason: "[NStack] Error fetching translations: \(response)"
-                )
-            }
+            try self.assertOKResponse(response, message: "Error fetching translations")
 
             return try response.content.decode(Localization.ResponseData.self)
                 .map { responseData in
-                    return Localization(
+                    Localization(
                         responseData: responseData,
                         platform: platform,
                         language: language
@@ -56,25 +50,40 @@ final class ConnectionManager {
         currentVersion: String = "0.0",
         lastVersion: String? = nil
     ) -> Future<UpdateResponse> {
-        let headers = self.authHeaders(application: application)
+        let headers = authHeaders(application: application)
         let url = config.baseURL + "notify/updates"
         let updateResponse = client.get(url, headers: headers) { get in
             try get.query.encode([
                 "platform": platform.rawValue,
-                "current_version": "0.0",
+                "current_version": currentVersion,
                 "last_version": lastVersion
             ])
         }
 
         return updateResponse.flatMap { response in
-            guard response.http.status == .ok else {
-                throw Abort(
-                    response.http.status,
-                    reason: "[NStack] Error fetching version updates: \(response)"
-                )
-            }
-
+            try self.assertOKResponse(response, message: "Error fetching version updates")
             return try response.content.decode(UpdateResponse.self)
+        }
+    }
+
+    func getResponse(
+        application: Application,
+        id: Int
+    ) -> Future<Response> {
+        let headers = authHeaders(application: application)
+        let url = config.baseURL + "content/responses/\(id)"
+        return client.get(url, headers: headers).map { response in
+            try self.assertOKResponse(response, message: "Error fetching response")
+            return response
+        }
+    }
+
+    private func assertOKResponse(_ response: Response, message: String) throws {
+        guard response.http.status == .ok else {
+            throw Abort(
+                response.http.status,
+                reason: "[NStack] \(message): \(response)"
+            )
         }
     }
 

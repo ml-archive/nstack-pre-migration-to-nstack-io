@@ -12,12 +12,12 @@ public struct Application {
     var restKey: String { return applicationConfig.restKey }
 
     var cache: KeyedCache { return connectionManager.cache }
-    
-    public lazy var translate: TranslateController = TranslateController(
+
+    public private(set) lazy var response = ResponseController(application: self)
+    public private(set) lazy var translate: TranslateController = TranslateController(
         application: self,
         config: self.translateConfig ?? Translate.Config.default
     )
-
     public private(set) lazy var version = VersionController(application: self)
 
     init(
