@@ -86,6 +86,10 @@ try services.register(
 
 ## Usage
 
+### Features
+
+#### Translate
+
 ```swift
 func getProductName(req: Request) throws -> Future<String> {
 
@@ -139,16 +143,7 @@ let translation = nstack.application.translate.get(
 )
 ```
 
-### Caching
-
-NStack uses the `KeyedCache` registered with Vapor. If you don't register any Cache, this should be the `KeyedMemory` Cache. If you configure Vapor to prefer another Cache, NStack will use this one instead. Example for Redis:
-
-In `configure.swift`:
-```swift
-config.prefer(DatabaseKeyedCache<ConfiguredDatabase<RedisDatabase>>.self, for: KeyedCache.self)
-```
-
-### Leaf Tag
+##### Leaf Tag
 In order to render the NStack Leaf tags, you will need to add them first:
 ```swift
 public func configure(_ config: inout Config, _ env: inout Environment, _ services: inout Services) throws {
@@ -179,12 +174,48 @@ let unprotectedBackend = router.grouped(nstackPreloadMiddleware)
 
 Please note that the leaf tag always uses the **current application** with the **default translate config** that you have provided.
 
-### Version Updates 
+#### Version Updates 
 NStack has the ability to retrieve the latest version for a certain platform. You can achieve that with the `getLatestVersion(for platform: Platforms) -> Future<UpdateVersion?>` method, e.g.:
 ```swift
 let nstack = try NStack.makeService(for: req)
 nstack.application.version.getLatestVersion(for: .android)
 ```
+
+#### Responses
+NStack can be used to store JSON responses. To make use of this feature you can use the `ResponseController`.
+
+```swift
+let nstack = try NStack.makeService(for: req)
+nstack.application.response[42].do { (response: Response) in
+	print(response.content)
+}
+```
+
+This gets the unmodified NStack `Response` with your JSON data in an object keyed by `data`, eg.:
+
+```
+{"data":{"myJSONData":"Starts here"}}
+```
+
+Alternatively you can decode your JSON object like so:
+
+```swift
+nstack.application.response[42].do { (response: [String: String]) in
+	print(response)
+}
+```
+
+This would yield your `Decodable` object, in this case our dictionary: `["myJSONData": "Starts here"]`.
+
+### Caching
+
+NStack uses the `KeyedCache` registered with Vapor. If you don't register any Cache, this should be the `KeyedMemory` Cache. If you configure Vapor to prefer another Cache, NStack will use this one instead. Example for Redis:
+
+In `configure.swift`:
+```swift
+config.prefer(DatabaseKeyedCache<ConfiguredDatabase<RedisDatabase>>.self, for: KeyedCache.self)
+```
+
 
 ## 🏆 Credits
 
