@@ -1,0 +1,481 @@
+{
+  "warnings": [
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Application+Config.swift",
+      "line": 1,
+      "symbol": "Application.Config",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Application+Config.swift",
+      "line": 3,
+      "symbol": "Application.Config",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Application+Config.swift",
+      "line": 5,
+      "symbol": "Application.Config.name",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Application+Config.swift",
+      "line": 6,
+      "symbol": "Application.Config.applicationId",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Application+Config.swift",
+      "line": 7,
+      "symbol": "Application.Config.restKey",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Application+Config.swift",
+      "line": 9,
+      "symbol": "Application.Config.init(name:applicationId:restKey:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Application.swift",
+      "line": 1,
+      "symbol": "Application",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Application.swift",
+      "line": 3,
+      "symbol": "Application",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Application.swift",
+      "line": 16,
+      "symbol": "Application.response",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Application.swift",
+      "line": 17,
+      "symbol": "Application.translate",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Application.swift",
+      "line": 21,
+      "symbol": "Application.version",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Deprecated.swift",
+      "line": 3,
+      "symbol": "Application.Config.masterKey",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Deprecated.swift",
+      "line": 8,
+      "symbol": "Application.Config.init(name:applicationId:restKey:masterKey:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Middlewares/NStackPreloadMiddleware.swift",
+      "line": 3,
+      "symbol": "NStackPreloadMiddleware",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Middlewares/NStackPreloadMiddleware.swift",
+      "line": 24,
+      "symbol": "NStackPreloadMiddleware",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Modules/Response/Controller/ResponseController.swift",
+      "line": 3,
+      "symbol": "ResponseController",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Modules/Response/Controller/ResponseController.swift",
+      "line": 11,
+      "symbol": "ResponseController.subscript(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.subscript",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Modules/Response/Controller/ResponseController.swift",
+      "line": 21,
+      "symbol": "ResponseController.subscript(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.subscript",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Modules/Translate/Controller/Translate+Config.swift",
+      "line": 5,
+      "symbol": "Translate.Config",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Modules/Translate/Controller/Translate+Config.swift",
+      "line": 7,
+      "symbol": "Translate.Config.defaultPlatform",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Modules/Translate/Controller/Translate+Config.swift",
+      "line": 8,
+      "symbol": "Translate.Config.defaultLanguage",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Modules/Translate/Controller/Translate+Config.swift",
+      "line": 9,
+      "symbol": "Translate.Config.cacheInMinutes",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Modules/Translate/Controller/Translate+Config.swift",
+      "line": 10,
+      "symbol": "Translate.Config.placeholderPrefix",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Modules/Translate/Controller/Translate+Config.swift",
+      "line": 11,
+      "symbol": "Translate.Config.placeholderSuffix",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Modules/Translate/Controller/Translate+Config.swift",
+      "line": 13,
+      "symbol": "Translate.Config.default",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Modules/Translate/Controller/Translate+Config.swift",
+      "line": 21,
+      "symbol": "Translate.Config.init(defaultPlatform:defaultLanguage:cacheInMinutes:placeholderPrefix:placeholderSuffix:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Modules/Translate/Controller/TranslateController.swift",
+      "line": 4,
+      "symbol": "TranslateController",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Modules/Translate/Controller/TranslateController.swift",
+      "line": 13,
+      "symbol": "TranslateController.Platform",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Modules/Translate/Controller/TranslateController.swift",
+      "line": 14,
+      "symbol": "TranslateController.Platform.api",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Modules/Translate/Controller/TranslateController.swift",
+      "line": 14,
+      "symbol": "TranslateController.Platform.backend",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Modules/Translate/Controller/TranslateController.swift",
+      "line": 14,
+      "symbol": "TranslateController.Platform.mobile",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Modules/Translate/Controller/TranslateController.swift",
+      "line": 14,
+      "symbol": "TranslateController.Platform.web",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Modules/Translate/Controller/TranslateController.swift",
+      "line": 22,
+      "symbol": "TranslateController.get(on:platform:language:section:key:searchReplacePairs:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Modules/Translate/Controller/TranslateController.swift",
+      "line": 65,
+      "symbol": "TranslateController.get(on:platform:language:section:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Modules/Translate/Tags/TranslateTag.swift",
+      "line": 13,
+      "symbol": "TranslateTag.init(nstack:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Modules/Version/Controller/VersionController.swift",
+      "line": 3,
+      "symbol": "VersionController",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Modules/Version/Controller/VersionController.swift",
+      "line": 11,
+      "symbol": "VersionController.getLatestVersion(for:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Modules/Version/Controller/VersionController.swift",
+      "line": 23,
+      "symbol": "VersionController",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Modules/Version/Controller/VersionController.swift",
+      "line": 24,
+      "symbol": "VersionController.Platforms",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Modules/Version/Controller/VersionController.swift",
+      "line": 25,
+      "symbol": "VersionController.Platforms.ios",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Modules/Version/Controller/VersionController.swift",
+      "line": 26,
+      "symbol": "VersionController.Platforms.android",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Modules/Version/Models/UpdateResponse.swift",
+      "line": 17,
+      "symbol": "UpdateVersion",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Modules/Version/Models/UpdateResponse.swift",
+      "line": 18,
+      "symbol": "UpdateVersion.id",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Modules/Version/Models/UpdateResponse.swift",
+      "line": 19,
+      "symbol": "UpdateVersion.version",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Modules/Version/Models/UpdateResponse.swift",
+      "line": 20,
+      "symbol": "UpdateVersion.update",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Modules/Version/Models/UpdateResponse.swift",
+      "line": 21,
+      "symbol": "UpdateVersion.newInVersion",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Modules/Version/Models/UpdateResponse.swift",
+      "line": 22,
+      "symbol": "UpdateVersion.changeLog",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/Modules/Version/Models/UpdateResponse.swift",
+      "line": 23,
+      "symbol": "UpdateVersion.fileUrl",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/NStack+Config.swift",
+      "line": 5,
+      "symbol": "NStack.Config",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/NStack+Config.swift",
+      "line": 7,
+      "symbol": "NStack.Config.applicationConfigs",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/NStack+Config.swift",
+      "line": 8,
+      "symbol": "NStack.Config.defaultApplicationName",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/NStack+Config.swift",
+      "line": 9,
+      "symbol": "NStack.Config.defaultTranslateConfig",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/NStack+Config.swift",
+      "line": 10,
+      "symbol": "NStack.Config.log",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/NStack+Config.swift",
+      "line": 11,
+      "symbol": "NStack.Config.baseURL",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/NStack+Config.swift",
+      "line": 13,
+      "symbol": "NStack.Config.init(applicationConfigs:defaultApplicationName:defaultTranslateConfig:log:baseURL:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/NStack.swift",
+      "line": 3,
+      "symbol": "NStack",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/NStack.swift",
+      "line": 3,
+      "symbol": "Translate",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/NStack.swift",
+      "line": 5,
+      "symbol": "Translate",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/NStack.swift",
+      "line": 7,
+      "symbol": "NStack",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/NStack.swift",
+      "line": 9,
+      "symbol": "NStack.application",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/NStack.swift",
+      "line": 65,
+      "symbol": "NStack.getApplication(name:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/NStack.swift",
+      "line": 76,
+      "symbol": "NStack.resetApplicationToDefault()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/NStack.swift",
+      "line": 82,
+      "symbol": "NStack",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/NStackLogger.swift",
+      "line": 18,
+      "symbol": "NStackLogger",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/NStackProvider.swift",
+      "line": 4,
+      "symbol": "NStackProvider",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/NStackProvider.swift",
+      "line": 9,
+      "symbol": "NStackProvider.init(config:cacheFactory:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/NStackProvider.swift",
+      "line": 18,
+      "symbol": "NStackProvider",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/nstack/Sources/NStack/NStackProvider.swift",
+      "line": 40,
+      "symbol": "LeafTagConfig.useNStackLeafTags(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/emilmarashliev/Projects/nstack"
+}
