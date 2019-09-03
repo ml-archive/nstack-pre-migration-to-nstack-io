@@ -12,12 +12,14 @@ public final class NStackPreloadMiddleware: Middleware {
             return try next.respond(to: request)
         }
         
-        return try nstack.application.translate.preloadLocalization(on: request).flatMap { _ in
-            return try next.respond(to: request)
-        }.catchFlatMap { error in
-            try? request.make(NStackLogger.self).log("NStack error: \(error)")
-            return try next.respond(to: request)
-        }
+        return try nstack.application.translate
+            .preloadLocalization(on: request)
+            .catch { error in
+                try? request.make(NStackLogger.self).log("NStack error: \(error)")
+            }
+            .flatMap { _ in
+                return try next.respond(to: request)
+            }
     }
 }
 
